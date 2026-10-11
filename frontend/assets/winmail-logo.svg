@@ -1,0 +1,138 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tlGrad" x1="170" y1="300" x2="486" y2="486" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e5142a"/>
+      <stop offset="0.42" stop-color="#ff5a3c"/>
+      <stop offset="0.78" stop-color="#ff9d6a"/>
+      <stop offset="1" stop-color="#ffd9be"/>
+    </linearGradient>
+    <linearGradient id="trGrad" x1="845" y1="175" x2="514" y2="486" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6ad83a"/>
+      <stop offset="0.45" stop-color="#54c61c"/>
+      <stop offset="1" stop-color="#eafcd0"/>
+    </linearGradient>
+    <linearGradient id="blGrad" x1="170" y1="805" x2="486" y2="514" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0a3fd0"/>
+      <stop offset="0.42" stop-color="#2f86ff"/>
+      <stop offset="1" stop-color="#c6e8ff"/>
+    </linearGradient>
+    <linearGradient id="brGrad" x1="845" y1="700" x2="514" y2="514" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#efac00"/>
+      <stop offset="0.45" stop-color="#ffd23f"/>
+      <stop offset="1" stop-color="#fff6c2"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.38"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="blurSoft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+    <filter id="blurMid" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="blurSmall" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+
+    <clipPath id="clipTL"><path d="M170,300 Q332,255 494,246 Q512,366 486,486 Q328,527 170,549 Q164,424 170,300 Z"/></clipPath>
+    <clipPath id="clipTR"><path d="M526,244 Q690,196 845,175 Q856,300 845,425 Q679,443 514,486 Q540,365 526,244 Z"/></clipPath>
+    <clipPath id="clipBL"><path d="M170,581 Q328,557 486,514 Q512,613 494,712 Q332,774 170,805 Q160,693 170,581 Z"/></clipPath>
+    <clipPath id="clipBR"><path d="M514,514 Q679,465 845,441 Q856,570 845,700 Q685,722 526,712 Q542,613 514,514 Z"/></clipPath>
+
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(20)">
+      <circle cx="7" cy="7" r="2.7" fill="#ffffff"/>
+      <circle cx="21" cy="21" r="2.7" fill="#ffffff"/>
+    </pattern>
+  </defs>
+
+  <!-- Colored outer glow -->
+  <g filter="url(#blurSoft)">
+    <path d="M170,300 Q332,255 494,246 Q512,366 486,486 Q328,527 170,549 Q164,424 170,300 Z" fill="#ff3b2f" opacity="0.62"/>
+    <path d="M526,244 Q690,196 845,175 Q856,300 845,425 Q679,443 514,486 Q540,365 526,244 Z" fill="#63d92b" opacity="0.6"/>
+    <path d="M170,581 Q328,557 486,514 Q512,613 494,712 Q332,774 170,805 Q160,693 170,581 Z" fill="#2f86ff" opacity="0.62"/>
+    <path d="M514,514 Q679,465 845,441 Q856,570 845,700 Q685,722 526,712 Q542,613 514,514 Z" fill="#ffcc22" opacity="0.6"/>
+  </g>
+
+  <!-- Blue light along the cross / dividers -->
+  <g filter="url(#blurMid)" opacity="0.95">
+    <path d="M505,236 C528,400 480,560 500,730" stroke="#59b4ff" stroke-width="30" fill="none"/>
+    <path d="M166,560 C400,525 620,470 846,428" stroke="#59b4ff" stroke-width="30" fill="none"/>
+  </g>
+
+  <!-- Panes -->
+  <g>
+    <path d="M170,300 Q332,255 494,246 Q512,366 486,486 Q328,527 170,549 Q164,424 170,300 Z" fill="url(#tlGrad)"/>
+    <path d="M526,244 Q690,196 845,175 Q856,300 845,425 Q679,443 514,486 Q540,365 526,244 Z" fill="url(#trGrad)"/>
+    <path d="M170,581 Q328,557 486,514 Q512,613 494,712 Q332,774 170,805 Q160,693 170,581 Z" fill="url(#blGrad)"/>
+    <path d="M514,514 Q679,465 845,441 Q856,570 845,700 Q685,722 526,712 Q542,613 514,514 Z" fill="url(#brGrad)"/>
+  </g>
+
+  <!-- Glass sheen -->
+  <g>
+    <path d="M170,300 Q332,255 494,246 Q512,366 486,486 Q328,527 170,549 Q164,424 170,300 Z" fill="url(#sheen)"/>
+    <path d="M526,244 Q690,196 845,175 Q856,300 845,425 Q679,443 514,486 Q540,365 526,244 Z" fill="url(#sheen)"/>
+    <path d="M170,581 Q328,557 486,514 Q512,613 494,712 Q332,774 170,805 Q160,693 170,581 Z" fill="url(#sheen)"/>
+    <path d="M514,514 Q679,465 845,441 Q856,570 845,700 Q685,722 526,712 Q542,613 514,514 Z" fill="url(#sheen)"/>
+  </g>
+
+  <!-- ===== Motifs ===== -->
+  <!-- TL: pine tree -->
+  <g clip-path="url(#clipTL)" fill="#7a2a12" opacity="0.5">
+    <rect x="399" y="372" width="7" height="26" rx="2"/>
+    <path d="M402,312 L384,362 L420,362 Z"/>
+    <path d="M402,340 L376,386 L428,386 Z"/>
+  </g>
+
+  <!-- TR: butterfly + hexagons -->
+  <g clip-path="url(#clipTR)">
+    <g fill="#ffffff" opacity="0.42">
+      <polygon points="706,196 724,206 724,226 706,236 688,226 688,206"/>
+      <polygon points="792,214 806,222 806,238 792,246 778,238 778,222"/>
+    </g>
+    <g fill="#ffffff" opacity="0.6">
+      <ellipse cx="752" cy="262" rx="16" ry="22" transform="rotate(-24 752 262)"/>
+      <ellipse cx="784" cy="262" rx="16" ry="22" transform="rotate(24 784 262)"/>
+      <ellipse cx="756" cy="290" rx="11" ry="15" transform="rotate(-18 756 290)"/>
+      <ellipse cx="780" cy="290" rx="11" ry="15" transform="rotate(18 780 290)"/>
+      <ellipse cx="768" cy="276" rx="4" ry="18"/>
+    </g>
+  </g>
+
+  <!-- BL: halftone dots -->
+  <g clip-path="url(#clipBL)">
+    <path d="M150,660 Q300,600 500,560 L520,720 Q300,760 150,800 Z" fill="url(#dots)" opacity="0.5"/>
+  </g>
+
+  <!-- BR: grass + sparkle -->
+  <g clip-path="url(#clipBR)">
+    <g stroke="#ffffff" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.55">
+      <path d="M556,712 Q566,668 560,640"/>
+      <path d="M592,712 Q602,666 596,636"/>
+      <path d="M628,712 Q638,668 632,640"/>
+      <path d="M664,712 Q674,666 668,638"/>
+      <path d="M700,712 Q710,668 704,640"/>
+      <path d="M736,712 Q746,666 740,638"/>
+      <path d="M772,712 Q782,668 776,640"/>
+      <path d="M808,712 Q818,666 812,638"/>
+    </g>
+    <g stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity="0.7">
+      <path d="M600,646 L600,600"/>
+      <path d="M578,622 L578,584"/>
+      <path d="M622,622 L622,584"/>
+    </g>
+  </g>
+
+  <!-- Soft white swoosh across the flag -->
+  <g filter="url(#blurMid)" opacity="0.28">
+    <path d="M180,470 C360,430 640,430 850,486" stroke="#ffffff" stroke-width="80" fill="none" stroke-linecap="round"/>
+  </g>
+  <g clip-path="url(#clipBL)">
+    <path d="M300,640 C360,560 470,540 560,560" stroke="#ffffff" stroke-width="30" fill="none" opacity="0.28" filter="url(#blurSmall)"/>
+  </g>
+  <g clip-path="url(#clipBR)">
+    <path d="M560,560 C660,560 760,600 840,650" stroke="#ffffff" stroke-width="30" fill="none" opacity="0.28" filter="url(#blurSmall)"/>
+  </g>
+</svg>

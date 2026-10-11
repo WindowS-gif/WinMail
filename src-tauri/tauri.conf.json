@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "WinMail",
+  "version": "1.0.13",
+  "identifier": "app.winmail.sender",
+  "build": {
+    "frontendDist": "../frontend"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "WinMail",
+        "width": 1280,
+        "height": 840,
+        "minWidth": 1100,
+        "minHeight": 720,
+        "resizable": true,
+        "center": true,
+        "decorations": false,
+        "zoomHotkeysEnabled": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' data:; img-src 'self' data: blob: https:; connect-src ipc: http://ipc.localhost https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; frame-src 'self' data: blob:"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "rpm", "nsis"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.png",
+      "icons/icon.ico"
+    ],
+    "category": "Productivity",
+    "shortDescription": "Native email campaign sender",
+    "longDescription": "WinMail is a native Rust/Tauri desktop application for managing email templates, recipients, providers and campaigns."
+  }
+}

@@ -1,0 +1,3475 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>WinMail</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/lint/lint.min.css"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <div class="titlebar" id="appTitlebar">
+            <div class="titlebar-brand" data-tauri-drag-region>
+                <img
+                    class="titlebar-logo"
+                    src="assets/winmail-logo.png"
+                    alt=""
+                    width="16"
+                    height="16"
+                    data-tauri-drag-region
+                />
+                <span class="titlebar-title" data-tauri-drag-region
+                    >WinMail</span
+                >
+            </div>
+            <div class="titlebar-drag" data-tauri-drag-region></div>
+            <div class="titlebar-controls">
+                <button
+                    type="button"
+                    class="titlebar-btn"
+                    id="titlebarMinimize"
+                    title="Minimize"
+                    aria-label="Minimize"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M2 6h8"
+                            stroke="currentColor"
+                            stroke-width="1.4"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </button>
+                <button
+                    type="button"
+                    class="titlebar-btn"
+                    id="titlebarMaximize"
+                    title="Maximize"
+                    aria-label="Maximize"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        aria-hidden="true"
+                        class="titlebar-icon-maximize"
+                    >
+                        <rect
+                            x="2"
+                            y="2"
+                            width="8"
+                            height="8"
+                            rx="1"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.3"
+                        />
+                    </svg>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        aria-hidden="true"
+                        class="titlebar-icon-restore"
+                    >
+                        <rect
+                            x="3.6"
+                            y="2"
+                            width="6.4"
+                            height="6.4"
+                            rx="1"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.3"
+                        />
+                        <rect
+                            x="2"
+                            y="3.6"
+                            width="6.4"
+                            height="6.4"
+                            rx="1"
+                            fill="#0a0a0a"
+                            stroke="currentColor"
+                            stroke-width="1.3"
+                        />
+                    </svg>
+                </button>
+                <button
+                    type="button"
+                    class="titlebar-btn titlebar-btn--close"
+                    id="titlebarClose"
+                    title="Close"
+                    aria-label="Close"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M3 3l6 6M9 3l-6 6"
+                            stroke="currentColor"
+                            stroke-width="1.4"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="app-layout">
+            <!-- Icon sidebar (fixed 40px) -->
+            <nav class="sidebar-icons" id="sidebarIcons">
+                <div class="sidebar-logo" title="WinMail">
+                    <img
+                        src="assets/winmail-logo.png"
+                        alt="WinMail"
+                        width="30"
+                        height="30"
+                    />
+                </div>
+                <button
+                    type="button"
+                    class="nav-icon active"
+                    data-section="dashboard"
+                    title="Dashboard"
+                >
+                    <span
+                        data-ty-icon="layout-dashboard"
+                        data-ty-icon-size="22"
+                    ></span>
+                </button>
+                <button
+                    type="button"
+                    class="nav-icon"
+                    data-section="templates"
+                    title="Templates"
+                >
+                    <span data-ty-icon="mail" data-ty-icon-size="22"></span>
+                </button>
+                <button
+                    type="button"
+                    class="nav-icon"
+                    data-section="campaigns"
+                    title="Campaigns"
+                >
+                    <span
+                        data-ty-icon="clipboard-list"
+                        data-ty-icon-size="22"
+                    ></span>
+                </button>
+                <button
+                    type="button"
+                    class="nav-icon"
+                    data-section="score"
+                    title="Analysis"
+                >
+                    <span
+                        data-ty-icon="bar-chart-2"
+                        data-ty-icon-size="22"
+                    ></span>
+                </button>
+                <button
+                    type="button"
+                    class="nav-icon"
+                    data-section="testing"
+                    title="Lab — Tests"
+                >
+                    <span data-ty-icon="zap" data-ty-icon-size="22"></span>
+                </button>
+                <button
+                    type="button"
+                    class="nav-icon"
+                    data-section="smtp"
+                    title="SMTP / API"
+                >
+                    <span data-ty-icon="server" data-ty-icon-size="22"></span>
+                </button>
+                <div class="sidebar-spacer"></div>
+                <button
+                    type="button"
+                    class="nav-icon nav-update-btn hidden"
+                    id="updateNavBtn"
+                    title="Update available"
+                    aria-label="Update available"
+                >
+                    <span class="update-pulse-dot"></span>
+                    <span data-ty-icon="download" data-ty-icon-size="20"></span>
+                </button>
+                <button
+                    type="button"
+                    class="nav-icon nav-icon-panel-toggle"
+                    id="sidebarPanelToggle"
+                    title="Collapse panel"
+                    aria-expanded="true"
+                    aria-controls="sidebarPanel"
+                >
+                    <span
+                        id="sidebarPanelToggleIcon"
+                        data-ty-icon="chevron-left"
+                        data-ty-icon-size="22"
+                    ></span>
+                </button>
+                <button
+                    type="button"
+                    class="nav-icon"
+                    data-section="config"
+                    title="Settings"
+                >
+                    <span data-ty-icon="settings" data-ty-icon-size="22"></span>
+                </button>
+            </nav>
+
+            <!-- Expandable text panel (180px, toggle) -->
+            <nav class="sidebar-panel" id="sidebarPanel">
+                <div class="panel-header">WinMail</div>
+                <button
+                    type="button"
+                    class="nav-item active"
+                    data-section="dashboard"
+                >
+                    Dashboard
+                </button>
+                <button type="button" class="nav-item" data-section="templates">
+                    Templates
+                </button>
+                <button type="button" class="nav-item" data-section="campaigns">
+                    Campaigns
+                </button>
+                <button type="button" class="nav-item" data-section="score">
+                    Score Analysis
+                </button>
+                <button type="button" class="nav-item" data-section="testing">
+                    Lab — Tests
+                </button>
+                <button type="button" class="nav-item" data-section="smtp">
+                    SMTP / API
+                </button>
+                <div class="panel-spacer"></div>
+                <button
+                    type="button"
+                    class="nav-item nav-update-panel-btn hidden"
+                    id="updatePanelBtn"
+                >
+                    <span class="update-pulse-dot-sm"></span>
+                    Update
+                </button>
+                <button type="button" class="nav-item" data-section="config">
+                    Settings
+                </button>
+            </nav>
+
+            <!-- Main area -->
+            <main class="main-content">
+                <div class="main-content-inner">
+                    <!-- Dashboard -->
+                    <section class="page" id="page-dashboard">
+                        <div class="page-header">
+                            <h1>Dashboard</h1>
+                        </div>
+                        <div class="stats-grid" id="dashboardStats"></div>
+                        <div
+                            class="active-campaign-widget"
+                            id="activeCampaignWidget"
+                        ></div>
+                        <div
+                            id="dashboardEmptyState"
+                            class="dashboard-empty-state hidden"
+                            aria-live="polite"
+                        ></div>
+                        <div class="recent-list" id="recentCampaigns"></div>
+                    </section>
+
+                    <!-- Templates -->
+                    <section class="page hidden" id="page-templates">
+                        <div class="page-header">
+                            <h1>Templates</h1>
+                            <div class="page-header-actions">
+                                <button
+                                    type="button"
+                                    class="btn-secondary btn-with-icon"
+                                    id="newFolderBtn"
+                                >
+                                    <span
+                                        data-ty-icon="folder-plus"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    New folder
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn-primary btn-with-icon"
+                                    id="newTemplateBtn"
+                                >
+                                    <span
+                                        data-ty-icon="plus"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    New template
+                                </button>
+                            </div>
+                        </div>
+
+                        <nav
+                            class="templates-breadcrumb hidden"
+                            id="templatesBreadcrumb"
+                            aria-label="Template folders breadcrumb"
+                        >
+                            <button
+                                type="button"
+                                class="templates-breadcrumb-root"
+                                id="templatesBreadcrumbRoot"
+                                data-drop-root="true"
+                            >
+                                <span
+                                    data-ty-icon="arrow-left"
+                                    data-ty-icon-size="16"
+                                ></span>
+                                <span>All templates</span>
+                            </button>
+                            <span
+                                class="templates-breadcrumb-sep"
+                                aria-hidden="true"
+                                >/</span
+                            >
+                            <span
+                                class="templates-breadcrumb-current"
+                                id="templatesBreadcrumbCurrent"
+                            ></span>
+                            <span
+                                class="templates-breadcrumb-hint"
+                                id="templatesBreadcrumbHint"
+                                >Drag a template here to move it out of the
+                                folder</span
+                            >
+                        </nav>
+
+                        <div class="templates-grid" id="templatesList"></div>
+                        <div
+                            id="templatesEmptyState"
+                            class="page-empty-state hidden"
+                            aria-live="polite"
+                        ></div>
+                    </section>
+
+                    <!-- Folder create/rename dialog -->
+                    <div
+                        class="modal-overlay hidden"
+                        id="folderEditDialog"
+                        aria-modal="true"
+                        role="dialog"
+                        aria-labelledby="folderEditDialogTitle"
+                    >
+                        <div class="modal folder-edit-modal">
+                            <h3 id="folderEditDialogTitle">New folder</h3>
+                            <div class="form-group">
+                                <label for="folderEditName">Folder name</label>
+                                <input
+                                    type="text"
+                                    id="folderEditName"
+                                    placeholder="e.g. Follow-ups, Special offers..."
+                                    autocomplete="off"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>Color</label>
+                                <div
+                                    class="folder-color-picker"
+                                    id="folderColorPicker"
+                                    role="radiogroup"
+                                    aria-label="Folder color"
+                                >
+                                    <button
+                                        type="button"
+                                        class="folder-color-swatch"
+                                        data-color="violet"
+                                        style="--swatch: #7c3aed"
+                                        aria-label="Violet"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        class="folder-color-swatch"
+                                        data-color="blue"
+                                        style="--swatch: #3b82f6"
+                                        aria-label="Blue"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        class="folder-color-swatch"
+                                        data-color="cyan"
+                                        style="--swatch: #06b6d4"
+                                        aria-label="Cyan"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        class="folder-color-swatch"
+                                        data-color="green"
+                                        style="--swatch: #10b981"
+                                        aria-label="Green"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        class="folder-color-swatch"
+                                        data-color="amber"
+                                        style="--swatch: #f59e0b"
+                                        aria-label="Amber"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        class="folder-color-swatch"
+                                        data-color="rose"
+                                        style="--swatch: #f43f5e"
+                                        aria-label="Rose"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        class="folder-color-swatch"
+                                        data-color="slate"
+                                        style="--swatch: #64748b"
+                                        aria-label="Slate"
+                                    ></button>
+                                    <label
+                                        class="folder-color-custom"
+                                        title="Custom color"
+                                    >
+                                        <input
+                                            type="color"
+                                            id="folderColorCustom"
+                                            value="#7c3aed"
+                                            aria-label="Custom color"
+                                        />
+                                        <span
+                                            class="folder-color-custom-icon"
+                                            aria-hidden="true"
+                                            >+</span
+                                        >
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="modal-actions folder-edit-actions">
+                                <button
+                                    type="button"
+                                    class="btn-danger btn-sm hidden"
+                                    id="folderEditDelete"
+                                >
+                                    Delete folder
+                                </button>
+                                <div class="folder-edit-actions-end">
+                                    <button
+                                        type="button"
+                                        class="btn-secondary"
+                                        id="folderEditCancel"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn-primary"
+                                        id="folderEditSave"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campaigns -->
+                    <section class="page hidden" id="page-campaigns">
+                        <div class="page-header">
+                            <h1>Campaigns</h1>
+                            <button
+                                type="button"
+                                class="btn-primary btn-with-icon"
+                                id="newCampaignBtn"
+                            >
+                                <span
+                                    data-ty-icon="plus"
+                                    data-ty-icon-size="18"
+                                ></span>
+                                New campaign
+                            </button>
+                        </div>
+                        <div id="campaignsList"></div>
+                        <div
+                            id="campaignsEmptyState"
+                            class="page-empty-state hidden"
+                            aria-live="polite"
+                        ></div>
+
+                        <!-- Campaign creation accordion form -->
+                        <div class="accordion-form hidden" id="campaignForm">
+                            <div
+                                class="campaign-edit-banner hidden"
+                                id="campaignEditBanner"
+                            >
+                                <span
+                                    ><strong>Edit mode</strong> — "Back to list"
+                                    or "Exit edit mode" saves the campaign
+                                    (without sending). The button below saves
+                                    and sends.</span
+                                >
+                                <button
+                                    type="button"
+                                    class="btn-secondary btn-sm"
+                                    id="exitEditCampaignBtn"
+                                >
+                                    Exit edit mode
+                                </button>
+                            </div>
+                            <h2 class="form-title" id="campaignFormTitle">
+                                New campaign
+                            </h2>
+                            <p class="form-subtitle" id="campaignFormSubtitle">
+                                Import a list, choose templates, configure
+                                sender and SMTP, then analyze or send.
+                            </p>
+                            <div class="campaign-form-toolbar">
+                                <button
+                                    type="button"
+                                    class="btn-secondary btn-with-icon"
+                                    id="cancelCampaignFormBtn"
+                                >
+                                    <span
+                                        data-ty-icon="arrow-left"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    Back to list
+                                </button>
+                            </div>
+
+                            <!-- Section 1: Recipients -->
+                            <div
+                                class="accordion-section open"
+                                data-section="recipients"
+                            >
+                                <div class="accordion-header">
+                                    <span class="accordion-number">①</span>
+                                    <span class="accordion-title"
+                                        >Recipients</span
+                                    >
+                                    <span
+                                        class="accordion-status"
+                                        id="recipientsStatus"
+                                    ></span>
+                                    <span
+                                        class="accordion-chevron"
+                                        data-ty-icon="chevron-down"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                </div>
+                                <div class="accordion-body">
+                                    <div class="upload-zone" id="uploadZone">
+                                        <input
+                                            type="file"
+                                            id="recipientsFile"
+                                            accept=".csv,.txt"
+                                            hidden
+                                        />
+                                        <div
+                                            class="upload-placeholder"
+                                            id="uploadPlaceholder"
+                                            role="button"
+                                            tabindex="0"
+                                        >
+                                            <div
+                                                class="upload-icon"
+                                                data-ty-icon="folder-open"
+                                                data-ty-icon-size="40"
+                                            ></div>
+                                            <div>
+                                                <strong>Drop a file</strong> or
+                                                click to choose (CSV or TXT)
+                                            </div>
+                                            <div
+                                                class="upload-file-hint hidden"
+                                                id="uploadFileHint"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="domain-summary hidden"
+                                        id="domainSummary"
+                                    ></div>
+                                    <div
+                                        class="domain-filters hidden"
+                                        id="domainFilters"
+                                    >
+                                        <div
+                                            class="form-group domain-filter-field"
+                                        >
+                                            <label for="domainFilterInput"
+                                                >Filter by domain
+                                                <span class="label-hint"
+                                                    >(leave empty = all)</span
+                                                ></label
+                                            >
+                                            <input
+                                                type="text"
+                                                id="domainFilterInput"
+                                                placeholder="@gmail.com, @yahoo.fr"
+                                                autocomplete="off"
+                                            />
+                                        </div>
+                                        <div
+                                            class="form-group domain-gmail-last-field"
+                                        >
+                                            <label
+                                                class="toggle-label domain-gmail-last-label"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    style="width: auto"
+                                                    id="gmailLastToggle"
+                                                    class="domain-checkbox"
+                                                />
+                                                <span
+                                                    >Send Gmail last
+                                                    <span class="label-hint"
+                                                        >(recommended)</span
+                                                    ></span
+                                                >
+                                            </label>
+                                        </div>
+                                        <div
+                                            class="form-group domain-keep-duplicates-field"
+                                        >
+                                            <label
+                                                class="toggle-label domain-gmail-last-label"
+                                                for="campaignKeepDuplicateEmails"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    style="width: auto"
+                                                    id="campaignKeepDuplicateEmails"
+                                                    class="domain-checkbox"
+                                                />
+                                                <span
+                                                    >Keep duplicates
+                                                    <span class="label-hint"
+                                                        >(repeat the same
+                                                        address, e.g. your
+                                                        control email every N
+                                                        sends)</span
+                                                    ></span
+                                                >
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="csv-mapping-panel hidden"
+                                        id="csvMappingPanel"
+                                        aria-labelledby="csvMappingTitle"
+                                    >
+                                        <h3
+                                            class="csv-mapping-title"
+                                            id="csvMappingTitle"
+                                        >
+                                            CSV file columns
+                                        </h3>
+                                        <p class="field-hint csv-mapping-intro">
+                                            The first line of your CSV must
+                                            contain
+                                            <strong>column names</strong>.
+                                            Choose which column contains the
+                                            email address, then map useful
+                                            fields to variables in your message.
+                                        </p>
+                                        <div class="form-group">
+                                            <label
+                                                >Email column
+                                                <span class="label-hint"
+                                                    >(required)</span
+                                                ></label
+                                            >
+                                            <select
+                                                id="csvEmailColumn"
+                                                class="csv-column-select"
+                                            >
+                                                <option value="">
+                                                    — Choose —
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div
+                                            class="form-row csv-mapping-optional-row"
+                                        >
+                                            <div class="form-group">
+                                                <label
+                                                    >First name
+                                                    <span class="label-hint"
+                                                        >(optional)</span
+                                                    ></label
+                                                >
+                                                <select
+                                                    id="csvFirstNameColumn"
+                                                    class="csv-column-select"
+                                                >
+                                                    <option value="">
+                                                        — Ignore —
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label
+                                                    >Last name
+                                                    <span class="label-hint"
+                                                        >(optional)</span
+                                                    ></label
+                                                >
+                                                <select
+                                                    id="csvLastNameColumn"
+                                                    class="csv-column-select"
+                                                >
+                                                    <option value="">
+                                                        — Ignore —
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label
+                                                    >Full display name
+                                                    <span class="label-hint"
+                                                        >(optional)</span
+                                                    ></label
+                                                >
+                                                <select
+                                                    id="csvFullNameColumn"
+                                                    class="csv-column-select"
+                                                >
+                                                    <option value="">
+                                                        — Ignore —
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="csv-custom-vars-block">
+                                            <div class="csv-custom-vars-header">
+                                                <span>Custom variables</span>
+                                                <button
+                                                    type="button"
+                                                    class="btn-secondary btn-sm btn-with-icon"
+                                                    id="csvAddCustomVarBtn"
+                                                >
+                                                    <span
+                                                        data-ty-icon="plus"
+                                                        data-ty-icon-size="16"
+                                                    ></span>
+                                                    Add
+                                                </button>
+                                            </div>
+                                            <p class="field-hint">
+                                                Set a variable name (e.g.
+                                                <code>city</code>) then a CSV
+                                                column; use
+                                                <code>{{city}}</code> in your
+                                                message.
+                                            </p>
+                                            <div
+                                                class="csv-custom-vars-list-wrap"
+                                                role="group"
+                                                aria-label="CSV custom variables"
+                                            >
+                                                <div
+                                                    id="csvCustomVarsBody"
+                                                    class="csv-custom-vars-list"
+                                                ></div>
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="field-hint hidden csv-mapping-warning"
+                                            id="csvMappingWarning"
+                                            role="status"
+                                        ></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 2: Templates -->
+                            <div
+                                class="accordion-section"
+                                data-section="templates"
+                            >
+                                <div class="accordion-header">
+                                    <span class="accordion-number">②</span>
+                                    <span class="accordion-title"
+                                        >Template(s)</span
+                                    >
+                                    <span
+                                        class="accordion-status"
+                                        id="templatesAccordionStatus"
+                                    ></span>
+                                    <span
+                                        class="accordion-chevron"
+                                        data-ty-icon="chevron-right"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                </div>
+                                <div class="accordion-body hidden">
+                                    <div
+                                        class="template-selector"
+                                        id="templateSelector"
+                                    ></div>
+                                    <div class="form-group">
+                                        <label>Template rotation</label>
+                                        <select id="rotationFrequency">
+                                            <option value="1">
+                                                Rotate every email
+                                            </option>
+                                            <option value="10">
+                                                Rotate every 10 emails
+                                            </option>
+                                            <option value="100">
+                                                Rotate every 100 emails
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 3: Setup -->
+                            <div
+                                class="accordion-section"
+                                data-section="config"
+                            >
+                                <div class="accordion-header">
+                                    <span class="accordion-number">③</span>
+                                    <span class="accordion-title">Setup</span>
+                                    <span
+                                        class="accordion-status"
+                                        id="configAccordionStatus"
+                                    ></span>
+                                    <span
+                                        class="accordion-chevron"
+                                        data-ty-icon="chevron-right"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                </div>
+                                <div class="accordion-body hidden">
+                                    <div
+                                        class="form-group"
+                                        id="smtpPrimaryConfigGroup"
+                                    >
+                                        <label>SMTP configuration</label>
+                                        <select id="smtpConfigSelect"></select>
+                                        <p class="field-hint">
+                                            Choose this first: sender options
+                                            depend on provider (Brevo, SES,
+                                            etc.).
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="form-group smtp-rotation-toggle-group"
+                                    >
+                                        <label
+                                            class="smtp-rotation-toggle"
+                                            for="smtpRotationEnabled"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                id="smtpRotationEnabled"
+                                            />
+                                            <span
+                                                class="smtp-rotation-toggle-text"
+                                                >SMTP rotation
+                                                (multi-account)</span
+                                            >
+                                        </label>
+                                        <p class="field-hint">
+                                            Enable to use multiple SMTP
+                                            configurations in the same campaign.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="smtp-rotation-panel hidden"
+                                        id="smtpRotationPanel"
+                                    >
+                                        <div class="form-group">
+                                            <label
+                                                >SMTP included in
+                                                rotation</label
+                                            >
+                                            <div
+                                                id="smtpRotationSelect"
+                                                class="smtp-rotation-checklist"
+                                            ></div>
+                                            <p class="field-hint">
+                                                Check all SMTP configurations to
+                                                include in rotation.
+                                            </p>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label
+                                                    >Switch SMTP every X
+                                                    emails</label
+                                                >
+                                                <input
+                                                    type="number"
+                                                    id="smtpRotationEvery"
+                                                    value="1"
+                                                    min="1"
+                                                    step="1"
+                                                />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Send mode</label>
+                                                <select id="smtpRotationMode">
+                                                    <option value="sequential">
+                                                        One SMTP at a time
+                                                        (global)
+                                                    </option>
+                                                    <option value="parallel">
+                                                        All SMTP in parallel
+                                                        (delay per SMTP)
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="smtp-sender-routing-panel"
+                                            id="smtpSenderRoutingPanel"
+                                        >
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <label
+                                                        >From email
+                                                        routing</label
+                                                    >
+                                                    <select id="smtpSenderMode">
+                                                        <option value="default">
+                                                            Use default sender
+                                                            for all SMTP
+                                                        </option>
+                                                        <option
+                                                            value="per_smtp"
+                                                        >
+                                                            Choose sender per
+                                                            SMTP
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label
+                                                        >From name
+                                                        routing</label
+                                                    >
+                                                    <select
+                                                        id="smtpFromNameMode"
+                                                    >
+                                                        <option value="global">
+                                                            Use one sender name
+                                                            for all SMTP
+                                                        </option>
+                                                        <option
+                                                            value="per_smtp"
+                                                        >
+                                                            Choose sender name
+                                                            per SMTP
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div
+                                                id="smtpSenderOverridesList"
+                                                class="smtp-sender-overrides-list"
+                                            ></div>
+                                            <p class="field-hint">
+                                                Per-SMTP overrides are optional:
+                                                keep defaults for some SMTP and
+                                                customize others.
+                                            </p>
+                                        </div>
+                                        <p class="field-hint">
+                                            In parallel mode, each SMTP applies
+                                            its own min/max delay while
+                                            processing recipients.
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="campaign-smtp-new hidden"
+                                        id="campaignSmtpNewPanel"
+                                    >
+                                        <h3 class="campaign-smtp-new-title">
+                                            New SMTP
+                                        </h3>
+                                        <p class="field-hint">
+                                            Auto-saved: this configuration will
+                                            be reusable in the SMTP / API tab.
+                                        </p>
+                                        <div class="form-group">
+                                            <label>Display name</label>
+                                            <input
+                                                type="text"
+                                                id="campSmtpName"
+                                                placeholder="e.g. Brevo pro account"
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Provider</label>
+                                            <select id="campSmtpProvider">
+                                                <option value="brevo">
+                                                    Brevo (API)
+                                                </option>
+                                                <option value="smtp">
+                                                    Generic SMTP
+                                                </option>
+                                                <option value="office365">
+                                                    Microsoft 365 / Office 365
+                                                    (SMTP)
+                                                </option>
+                                                <option value="mailgun">
+                                                    Mailgun
+                                                </option>
+                                                <option value="sendgrid">
+                                                    SendGrid
+                                                </option>
+                                                <option value="ses">
+                                                    Amazon SES
+                                                </option>
+                                                <option value="postmark">
+                                                    Postmark
+                                                </option>
+                                                <option value="mandrill">
+                                                    Mandrill
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div
+                                            class="form-group"
+                                            id="campSmtpApiKeyGroup"
+                                        >
+                                            <label id="campSmtpApiKeyLabel"
+                                                >API key</label
+                                            >
+                                            <input
+                                                type="password"
+                                                id="campSmtpApiKey"
+                                                placeholder="xkeysib-..."
+                                                autocomplete="new-password"
+                                            />
+                                        </div>
+                                        <div
+                                            id="campSmtpOffice365Group"
+                                            class="form-group hidden"
+                                        >
+                                            <p class="field-hint">
+                                                <strong
+                                                    >smtp.office365.com</strong
+                                                >, port <strong>587</strong>,
+                                                STARTTLS (TLS). User = full
+                                                Microsoft 365 email address.
+                                                MFA: app password. Admin must
+                                                allow
+                                                <strong>SMTP AUTH</strong> for
+                                                the mailbox. GCC High: use
+                                                <code>smtp.office365.us</code>
+                                                when needed.
+                                            </p>
+                                        </div>
+                                        <div
+                                            id="campSmtpSesGroup"
+                                            class="camp-smtp-ses-block hidden"
+                                        >
+                                            <div class="form-group">
+                                                <label
+                                                    >Access Key ID
+                                                    <span class="label-hint"
+                                                        >(IAM, ex. AKIA…)</span
+                                                    ></label
+                                                >
+                                                <input
+                                                    type="text"
+                                                    id="campAwsAccessKey"
+                                                    autocomplete="off"
+                                                    spellcheck="false"
+                                                    placeholder="AKIA…"
+                                                />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Secret Access Key</label>
+                                                <input
+                                                    type="password"
+                                                    id="campAwsSecretKey"
+                                                    autocomplete="new-password"
+                                                    placeholder="IAM secret key"
+                                                />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Amazon SES region</label>
+                                                <select id="campAwsRegion">
+                                                    <option value="eu-west-3">
+                                                        Europe (Paris) —
+                                                        eu-west-3
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <p
+                                                class="field-hint smtp-ses-ak-hint"
+                                            >
+                                                AWS does not allow API calls
+                                                with only the visible key
+                                                (AKIA...). The
+                                                <strong
+                                                    >Secret Access Key</strong
+                                                >
+                                                is required to read quotas and
+                                                identities.
+                                            </p>
+                                            <div class="smtp-ses-btn-row">
+                                                <button
+                                                    type="button"
+                                                    class="btn-secondary btn-sm btn-with-icon"
+                                                    id="campSesProbeAllBtn"
+                                                >
+                                                    <span
+                                                        data-ty-icon="activity"
+                                                        data-ty-icon-size="16"
+                                                    ></span>
+                                                    Scan all regions
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="btn-secondary btn-sm btn-with-icon"
+                                                    id="campSesInspectBtn"
+                                                >
+                                                    <span
+                                                        data-ty-icon="search"
+                                                        data-ty-icon-size="16"
+                                                    ></span>
+                                                    Selected region details
+                                                </button>
+                                            </div>
+                                            <div
+                                                id="campSesInspectResult"
+                                                class="smtp-ses-inspect-result hidden"
+                                                aria-live="polite"
+                                            ></div>
+                                        </div>
+                                        <div
+                                            class="form-group camp-smtp-credentials hidden"
+                                            id="campSmtpHostGroup"
+                                        >
+                                            <label>Host SMTP</label>
+                                            <input
+                                                type="text"
+                                                id="campSmtpHost"
+                                                placeholder="smtp.provider.com"
+                                                autocomplete="off"
+                                            />
+                                        </div>
+                                        <div
+                                            class="form-row camp-smtp-credentials hidden"
+                                            id="campSmtpPortUserRow"
+                                        >
+                                            <div class="form-group">
+                                                <label>Port</label>
+                                                <input
+                                                    type="number"
+                                                    id="campSmtpPort"
+                                                    value="587"
+                                                />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>User</label>
+                                                <input
+                                                    type="text"
+                                                    id="campSmtpUser"
+                                                    placeholder="SMTP login"
+                                                    autocomplete="username"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="form-group camp-smtp-credentials hidden"
+                                            id="campSmtpPassGroup"
+                                        >
+                                            <label>Password</label>
+                                            <input
+                                                type="password"
+                                                id="campSmtpPass"
+                                                autocomplete="new-password"
+                                            />
+                                        </div>
+                                        <div
+                                            class="form-actions campaign-smtp-actions"
+                                        >
+                                            <button
+                                                type="button"
+                                                class="btn-secondary"
+                                                id="campSmtpTestBtn"
+                                            >
+                                                Test connection
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn-primary"
+                                                id="campSmtpSaveBtn"
+                                            >
+                                                Save &amp; use for this campaign
+                                            </button>
+                                        </div>
+                                        <p
+                                            class="field-hint hidden"
+                                            id="campSmtpTestResult"
+                                            aria-live="polite"
+                                        ></p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Campaign name</label>
+                                        <input
+                                            type="text"
+                                            id="campaignName"
+                                            placeholder="Newsletter Mai 2025"
+                                        />
+                                    </div>
+                                    <div class="form-group" id="fromEmailGroup">
+                                        <label>From (email)</label>
+                                        <div
+                                            class="from-email-row ty-inline-row"
+                                            style="
+                                                gap: 8px;
+                                                flex-wrap: wrap;
+                                                align-items: center;
+                                                width: 100%;
+                                            "
+                                        >
+                                            <select
+                                                id="fromEmailSelect"
+                                                class="hidden"
+                                                style="
+                                                    flex: 1;
+                                                    min-width: 220px;
+                                                "
+                                                aria-label="Verified sender"
+                                            ></select>
+                                            <input
+                                                type="email"
+                                                id="fromEmail"
+                                                placeholder="newsletter@mydomain.com"
+                                                style="
+                                                    flex: 1;
+                                                    min-width: 220px;
+                                                "
+                                            />
+                                            <button
+                                                type="button"
+                                                class="btn-secondary btn-sm btn-with-icon hidden"
+                                                id="refreshVerifiedSendersBtn"
+                                                title="Reload list from API"
+                                            >
+                                                <span
+                                                    data-ty-icon="refresh-cw"
+                                                    data-ty-icon-size="16"
+                                                ></span>
+                                                Refresh
+                                            </button>
+                                        </div>
+                                        <div
+                                            class="verified-domain-from-wrap hidden"
+                                            id="verifiedDomainFromWrap"
+                                        >
+                                            <label for="verifiedDomainFromEmail"
+                                                >Address on verified
+                                                domain</label
+                                            >
+                                            <input
+                                                type="email"
+                                                id="verifiedDomainFromEmail"
+                                                placeholder="noreply@verified-domain.com"
+                                            />
+                                            <p
+                                                class="field-hint"
+                                                id="verifiedDomainFromHint"
+                                            ></p>
+                                        </div>
+                                        <div
+                                            class="sender-local-rotation-panel hidden"
+                                            id="senderLocalRotationPanel"
+                                        >
+                                            <label
+                                                class="smtp-rotation-toggle"
+                                                for="senderLocalRotationEnabled"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    id="senderLocalRotationEnabled"
+                                                />
+                                                <span
+                                                    class="smtp-rotation-toggle-text"
+                                                    >Rotate the address before
+                                                    @</span
+                                                >
+                                            </label>
+                                            <div
+                                                class="sender-local-rotation-fields hidden"
+                                                id="senderLocalRotationFields"
+                                            >
+                                                <div class="form-row">
+                                                    <div class="form-group">
+                                                        <label
+                                                            >Local parts
+                                                            <span
+                                                                class="label-hint"
+                                                                >(one per
+                                                                line)</span
+                                                            ></label
+                                                        >
+                                                        <textarea
+                                                            id="senderLocalRotationParts"
+                                                            placeholder="alex&#10;marie&#10;team"
+                                                            rows="4"
+                                                        ></textarea>
+                                                        <p class="field-hint">
+                                                            Only write the part
+                                                            before @. The
+                                                            selected verified
+                                                            domain is added
+                                                            automatically.
+                                                        </p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            >Switch local part
+                                                            every X
+                                                            emails</label
+                                                        >
+                                                        <input
+                                                            type="number"
+                                                            id="senderLocalRotationEvery"
+                                                            value="1"
+                                                            min="1"
+                                                            step="1"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <p
+                                                    class="field-hint"
+                                                    id="senderLocalRotationHint"
+                                                    aria-live="polite"
+                                                ></p>
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="field-hint hidden"
+                                            id="fromEmailListHint"
+                                            aria-live="polite"
+                                        ></p>
+                                    </div>
+                                    <div class="form-group" id="fromNameGroup">
+                                        <label>From (display name)</label>
+                                        <input
+                                            type="text"
+                                            id="fromName"
+                                            placeholder="My Newsletter"
+                                        />
+                                        <p class="field-hint">
+                                            Used as the default sender name. You
+                                            can rotate several names below for
+                                            warmer, more natural campaigns.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="form-group sender-name-rotation-toggle-group"
+                                    >
+                                        <label
+                                            class="smtp-rotation-toggle"
+                                            for="senderNameRotationEnabled"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                id="senderNameRotationEnabled"
+                                            />
+                                            <span
+                                                class="smtp-rotation-toggle-text"
+                                                >Sender name rotation</span
+                                            >
+                                        </label>
+                                        <p class="field-hint">
+                                            Rotate only the display name while
+                                            keeping the selected From email and
+                                            SMTP routing. When enabled, use only
+                                            the list below.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="sender-name-rotation-panel hidden"
+                                        id="senderNameRotationPanel"
+                                    >
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label
+                                                    >Sender names
+                                                    <span class="label-hint"
+                                                        >(one per line)</span
+                                                    ></label
+                                                >
+                                                <textarea
+                                                    id="senderNameRotationNames"
+                                                    placeholder="Alex from WinMail&#10;Marie from WinMail&#10;WinMail Team"
+                                                    rows="4"
+                                                ></textarea>
+                                                <p class="field-hint">
+                                                    Empty lines are ignored and
+                                                    duplicates are removed. If
+                                                    the list is empty, the
+                                                    default display name above
+                                                    is used.
+                                                </p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label
+                                                    >Switch name every X
+                                                    emails</label
+                                                >
+                                                <input
+                                                    type="number"
+                                                    id="senderNameRotationEvery"
+                                                    value="1"
+                                                    min="1"
+                                                    step="1"
+                                                />
+                                                <p class="field-hint">
+                                                    Example: 2 names + value 5 =
+                                                    first name for 5 recipients,
+                                                    second for the next 5.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="field-hint"
+                                            id="senderNameRotationHint"
+                                            aria-live="polite"
+                                        ></p>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label
+                                                >Min delay (s)
+                                                <span class="label-hint"
+                                                    >(decimals, e.g. 0.2)</span
+                                                ></label
+                                            >
+                                            <input
+                                                type="number"
+                                                id="delayMin"
+                                                value="1"
+                                                min="0"
+                                                step="any"
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label
+                                                >Max delay (s)
+                                                <span class="label-hint"
+                                                    >(random between min and
+                                                    max)</span
+                                                ></label
+                                            >
+                                            <input
+                                                type="number"
+                                                id="delayMax"
+                                                value="3"
+                                                min="0"
+                                                step="any"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section: Proxies (optional, off by default) -->
+                            <div
+                                class="accordion-section"
+                                data-section="proxies"
+                            >
+                                <div class="accordion-header">
+                                    <span class="accordion-number">⊕</span>
+                                    <span class="accordion-title"
+                                        >Proxies
+                                        <span
+                                            class="label-hint"
+                                            id="proxyHeaderHint"
+                                            >(optional)</span
+                                        ></span
+                                    >
+                                    <span
+                                        class="accordion-status"
+                                        id="proxyAccordionStatus"
+                                    ></span>
+                                    <span
+                                        class="accordion-chevron"
+                                        data-ty-icon="chevron-right"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                </div>
+                                <div class="accordion-body hidden">
+                                    <div class="form-group">
+                                        <label class="smtp-rotation-toggle">
+                                            <input
+                                                type="checkbox"
+                                                id="proxyEnabled"
+                                            />
+                                            <span
+                                                class="smtp-rotation-toggle-text"
+                                                >Route every send through
+                                                proxies</span
+                                            >
+                                        </label>
+                                        <p class="field-hint">
+                                            Works for every provider: HTTP-API
+                                            (Brevo, SendGrid, Amazon SES,
+                                            Mailgun, Mandrill, Postmark) via the
+                                            reqwest client, and SMTP / Office365
+                                            via a native RFC 5321 tunnel — one
+                                            tunnel per message, STARTTLS or
+                                            implicit TLS transparently.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="proxy-body hidden"
+                                        id="proxyConfigBody"
+                                    >
+                                        <div class="form-group">
+                                            <label
+                                                >Proxy list
+                                                <span class="label-hint"
+                                                    >(one per line)</span
+                                                ></label
+                                            >
+                                            <textarea
+                                                id="proxyList"
+                                                rows="6"
+                                                spellcheck="false"
+                                                autocomplete="off"
+                                                data-no-persist
+                                                placeholder="socks5://user:pass@1.2.3.4:1080&#10;http://10.0.0.1:8080&#10;1.2.3.4:8080:alice:s3cret"
+                                            ></textarea>
+                                            <p
+                                                class="field-hint"
+                                                id="proxyListHint"
+                                                aria-live="polite"
+                                            >
+                                                Accepted formats:
+                                                <code
+                                                    >scheme://[user:pass@]host:port</code
+                                                >, <code>host:port</code> or
+                                                <code>host:port:user:pass</code
+                                                >. Schemes: <code>http</code>,
+                                                <code>https</code>,
+                                                <code>socks5</code>,
+                                                <code>socks5h</code>.
+                                            </p>
+                                            <p
+                                                class="field-hint proxy-list-status"
+                                                id="proxyListStatus"
+                                                aria-live="polite"
+                                            ></p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="proxyRotationEvery"
+                                                >Rotate proxy every
+                                                <span class="label-hint"
+                                                    >(emails)</span
+                                                ></label
+                                            >
+                                            <input
+                                                type="number"
+                                                id="proxyRotationEvery"
+                                                value="1"
+                                                min="1"
+                                                step="1"
+                                            />
+                                            <p class="field-hint">
+                                                With a single proxy, it is used
+                                                for every send. With multiple,
+                                                cycle once this counter is
+                                                reached.
+                                            </p>
+                                        </div>
+                                        <details class="proxy-advanced">
+                                            <summary>
+                                                Advanced — per-proxy rate limit
+                                            </summary>
+                                            <div class="form-group">
+                                                <label
+                                                    class="smtp-rotation-toggle"
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        id="proxyRateLimitEnabled"
+                                                    />
+                                                    <span
+                                                        class="smtp-rotation-toggle-text"
+                                                        >Enable per-proxy rate
+                                                        limit</span
+                                                    >
+                                                </label>
+                                            </div>
+                                            <div
+                                                class="form-row proxy-rate-fields"
+                                                id="proxyRateFields"
+                                            >
+                                                <div class="form-group">
+                                                    <label
+                                                        for="proxyMaxUsesPerWindow"
+                                                        >Max uses per
+                                                        window</label
+                                                    >
+                                                    <input
+                                                        type="number"
+                                                        id="proxyMaxUsesPerWindow"
+                                                        value="30"
+                                                        min="1"
+                                                        step="1"
+                                                    />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label
+                                                        for="proxyRateWindowSecs"
+                                                        >Window (seconds)</label
+                                                    >
+                                                    <input
+                                                        type="number"
+                                                        id="proxyRateWindowSecs"
+                                                        value="60"
+                                                        min="1"
+                                                        step="1"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <p class="field-hint">
+                                                Example:
+                                                <strong>30 / 60s</strong>
+                                                means each proxy is used at most
+                                                30 times per minute. When all
+                                                proxies hit their quota the
+                                                campaign pauses until the
+                                                earliest window frees up.
+                                            </p>
+                                        </details>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 4: Analyze -->
+                            <div
+                                class="accordion-section"
+                                data-section="analyze"
+                            >
+                                <div class="accordion-header">
+                                    <span class="accordion-number">④</span>
+                                    <span class="accordion-title"
+                                        >Analyze &amp; Send</span
+                                    >
+                                    <span
+                                        class="accordion-chevron"
+                                        data-ty-icon="chevron-right"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                </div>
+                                <div class="accordion-body hidden">
+                                    <button
+                                        type="button"
+                                        class="btn-secondary btn-with-icon"
+                                        id="analyzeBtn"
+                                    >
+                                        <span
+                                            data-ty-icon="search"
+                                            data-ty-icon-size="18"
+                                        ></span>
+                                        Analyze deliverability
+                                    </button>
+                                    <div
+                                        class="score-display hidden"
+                                        id="scoreDisplay"
+                                    ></div>
+                                    <div class="send-actions" id="sendActions">
+                                        <button
+                                            type="button"
+                                            class="btn-primary btn-send btn-with-icon"
+                                            id="sendBtn"
+                                            disabled
+                                        >
+                                            <span
+                                                data-ty-icon="send"
+                                                data-ty-icon-size="20"
+                                            ></span>
+                                            Start sending
+                                        </button>
+                                        <a
+                                            class="force-send-link hidden"
+                                            id="forceSendLink"
+                                            href="#"
+                                            >Send anyway (not recommended)</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campaign details / monitoring view -->
+                        <div class="campaign-detail hidden" id="campaignDetail">
+                            <div class="detail-header">
+                                <button
+                                    type="button"
+                                    class="back-btn btn-with-icon"
+                                    data-detail-action="back"
+                                >
+                                    <span
+                                        data-ty-icon="arrow-left"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    Campaigns
+                                </button>
+                                <h2
+                                    class="detail-campaign-name"
+                                    id="detailCampaignName"
+                                >
+                                    Campaign
+                                </h2>
+                                <span
+                                    class="detail-status-badge"
+                                    id="detailStatusBadge"
+                                ></span>
+                            </div>
+                            <div
+                                class="detail-meta-bar hidden"
+                                id="detailMetaBar"
+                            ></div>
+
+                            <div class="detail-stats-row">
+                                <div class="detail-circle-wrap">
+                                    <svg
+                                        class="progress-ring"
+                                        viewBox="0 0 80 80"
+                                    >
+                                        <circle
+                                            class="ring-bg"
+                                            cx="40"
+                                            cy="40"
+                                            r="32"
+                                        />
+                                        <circle
+                                            class="ring-fill"
+                                            id="detailRingFill"
+                                            cx="40"
+                                            cy="40"
+                                            r="32"
+                                            stroke-dasharray="201"
+                                            stroke-dashoffset="201"
+                                        />
+                                    </svg>
+                                    <div class="ring-label" id="detailPercent">
+                                        0%
+                                    </div>
+                                </div>
+                                <div class="detail-stats-grid">
+                                    <div class="monitor-stat">
+                                        <div
+                                            class="stat-val success"
+                                            id="detailSent"
+                                        >
+                                            0
+                                        </div>
+                                        <div class="stat-lbl">Sent</div>
+                                    </div>
+                                    <div class="monitor-stat">
+                                        <div
+                                            class="stat-val danger"
+                                            id="detailFailed"
+                                        >
+                                            0
+                                        </div>
+                                        <div class="stat-lbl">Failed</div>
+                                    </div>
+                                    <div class="monitor-stat">
+                                        <div
+                                            class="stat-val muted"
+                                            id="detailRemaining"
+                                        >
+                                            —
+                                        </div>
+                                        <div class="stat-lbl">Remaining</div>
+                                    </div>
+                                    <div class="monitor-stat">
+                                        <div
+                                            class="stat-val accent"
+                                            id="detailTotal"
+                                        >
+                                            0
+                                        </div>
+                                        <div class="stat-lbl">Total</div>
+                                    </div>
+                                    <div
+                                        class="monitor-stat monitor-stat--wide"
+                                    >
+                                        <div
+                                            class="stat-val accent"
+                                            id="detailEta"
+                                        >
+                                            —
+                                        </div>
+                                        <div class="stat-lbl">
+                                            Time remaining (est.)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="detail-actions"
+                                    id="detailActions"
+                                ></div>
+                            </div>
+                            <p
+                                class="detail-hint hidden"
+                                id="detailEditHint"
+                            ></p>
+
+                            <div class="detail-logs-panel">
+                                <div class="logs-header">
+                                    <span class="logs-title">Logs</span>
+                                    <span
+                                        class="logs-indicator"
+                                        id="detailLogsIndicator"
+                                    ></span>
+                                </div>
+                                <div
+                                    class="logs-container"
+                                    id="detailLogsContainer"
+                                ></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Score / Analysis -->
+                    <section class="page hidden" id="page-score">
+                        <div class="page-header">
+                            <h1>Score Analysis</h1>
+                        </div>
+                        <div class="score-analyzer" id="scoreAnalyzer">
+                            <div class="form-group">
+                                <label>Select a campaign to analyze</label>
+                                <select id="scoreCampaignSelect"></select>
+                            </div>
+                            <button
+                                type="button"
+                                class="btn-primary btn-with-icon"
+                                id="runScoreBtn"
+                            >
+                                <span
+                                    data-ty-icon="search"
+                                    data-ty-icon-size="18"
+                                ></span>
+                                Analyze
+                            </button>
+                            <div
+                                id="scorePageEmptyState"
+                                class="page-empty-state hidden"
+                                aria-live="polite"
+                            ></div>
+                            <div
+                                class="score-result hidden"
+                                id="scoreResult"
+                            ></div>
+                        </div>
+                    </section>
+
+                    <!-- Lab — Pre-campaign tests -->
+                    <section
+                        class="page hidden"
+                        id="page-testing"
+                        data-persist-inputs="true"
+                    >
+                        <div class="page-header">
+                            <h1>Lab — Tests</h1>
+                        </div>
+                        <p class="field-hint testing-page-lead">
+                            Check API accounts (Brevo, SES, SendGrid), test
+                            sending connection, and send a control email.
+                            Introspection data is
+                            <strong>not</strong> auto-loaded: only after
+                            clicking "Query API", then kept for the browser
+                            session (Testing tab or SMTP details panel).
+                        </p>
+
+                        <div class="testing-layout">
+                            <article class="testing-card">
+                                <h2 class="testing-card-title">
+                                    API introspection
+                                </h2>
+                                <p class="field-hint">
+                                    Account, Brevo senders, SES identities,
+                                    SendGrid profile &amp; scopes.
+                                </p>
+                                <div class="form-group">
+                                    <label>Source</label>
+                                    <select id="testingInspectSource">
+                                        <option value="saved">
+                                            Saved configuration
+                                        </option>
+                                        <option value="manual">
+                                            Manual input (key / IAM)
+                                        </option>
+                                    </select>
+                                </div>
+                                <div id="testingInspectSavedBlock">
+                                    <div class="form-group">
+                                        <label>SMTP configuration</label>
+                                        <select id="testingInspectSmtpSelect">
+                                            <option value="">— Choose —</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div
+                                    id="testingInspectManualBlock"
+                                    class="hidden"
+                                >
+                                    <div class="form-group">
+                                        <label>Provider</label>
+                                        <select
+                                            id="testingInspectManualProvider"
+                                        >
+                                            <option value="brevo">Brevo</option>
+                                            <option value="ses">
+                                                Amazon SES
+                                            </option>
+                                            <option value="sendgrid">
+                                                SendGrid
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div
+                                        id="testingManualBrevoWrap"
+                                        class="testing-manual-panel"
+                                    >
+                                        <div class="form-group">
+                                            <label>Brevo API key</label>
+                                            <input
+                                                type="text"
+                                                id="testingManualBrevoKey"
+                                                class="testing-api-key-input"
+                                                autocomplete="off"
+                                                spellcheck="false"
+                                                data-no-persist
+                                                placeholder="xkeysib-…"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div
+                                        id="testingManualSesWrap"
+                                        class="testing-manual-panel hidden"
+                                    >
+                                        <div class="form-group">
+                                            <label>Access Key ID</label>
+                                            <input
+                                                type="text"
+                                                id="testingManualSesAk"
+                                                autocomplete="off"
+                                                data-no-persist
+                                                placeholder="AKIA…"
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Secret Access Key</label>
+                                            <input
+                                                type="text"
+                                                id="testingManualSesSk"
+                                                class="testing-api-key-input"
+                                                autocomplete="off"
+                                                spellcheck="false"
+                                                data-no-persist
+                                                placeholder="wJalr…"
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>SES region</label>
+                                            <select id="testingSesRegion">
+                                                <option value="eu-west-3">
+                                                    Europe (Paris) — eu-west-3
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div
+                                        id="testingManualSgWrap"
+                                        class="testing-manual-panel hidden"
+                                    >
+                                        <div class="form-group">
+                                            <label>SendGrid API key</label>
+                                            <input
+                                                type="text"
+                                                id="testingManualSendgridKey"
+                                                class="testing-api-key-input"
+                                                autocomplete="off"
+                                                spellcheck="false"
+                                                data-no-persist
+                                                placeholder="SG.…"
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>API region</label>
+                                            <select
+                                                id="testingManualSendgridRegion"
+                                            >
+                                                <option value="">
+                                                    Automatic (EU then US)
+                                                </option>
+                                                <option value="eu">
+                                                    European Union
+                                                </option>
+                                                <option value="global">
+                                                    United States / global
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="btn-primary btn-with-icon"
+                                    id="testingInspectRunBtn"
+                                >
+                                    <span
+                                        data-ty-icon="search"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    Query API
+                                </button>
+                                <p
+                                    class="field-hint hidden testing-run-hint"
+                                    id="testingInspectStatus"
+                                    aria-live="polite"
+                                ></p>
+                                <div
+                                    class="testing-inspect-output hidden"
+                                    id="testingInspectOutput"
+                                ></div>
+                            </article>
+
+                            <article class="testing-card">
+                                <h2 class="testing-card-title">
+                                    SMTP / API connection test
+                                </h2>
+                                <p class="field-hint">
+                                    Equivalent to the "Test" button in SMTP
+                                    settings (checks credentials response).
+                                </p>
+                                <div class="form-group">
+                                    <label>Configuration</label>
+                                    <select id="testingConnSmtpSelect">
+                                        <option value="">— Choose —</option>
+                                    </select>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="btn-secondary btn-with-icon"
+                                    id="testingConnRunBtn"
+                                >
+                                    <span
+                                        data-ty-icon="activity"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    Test connection
+                                </button>
+                                <p
+                                    class="field-hint hidden"
+                                    id="testingConnResult"
+                                    aria-live="polite"
+                                ></p>
+                            </article>
+
+                            <article class="testing-card testing-card--wide">
+                                <h2 class="testing-card-title">
+                                    Test email (inbox)
+                                </h2>
+                                <p class="field-hint">
+                                    A real send to your chosen address: plain
+                                    text, HTML and/or content from a saved
+                                    template.
+                                </p>
+                                <p
+                                    class="field-hint hidden"
+                                    id="testingMailFromNoConfigHint"
+                                    aria-live="polite"
+                                ></p>
+                                <div class="form-row testing-form-row-2">
+                                    <div class="form-group">
+                                        <label>SMTP configuration</label>
+                                        <select id="testingMailSmtpSelect">
+                                            <option value="">— Choose —</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Recipient (To)</label>
+                                        <input
+                                            type="email"
+                                            id="testingMailTo"
+                                            placeholder="vous@domaine.com"
+                                            autocomplete="email"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-row testing-form-row-2">
+                                    <div
+                                        class="form-group hidden"
+                                        id="testingMailFromSelectWrap"
+                                    >
+                                        <label>Sender identity</label>
+                                        <select id="testingMailFromSelect">
+                                            <option value="">
+                                                — Choose an SMTP configuration —
+                                            </option>
+                                        </select>
+                                        <p
+                                            class="field-hint hidden"
+                                            id="testingMailFromIdentityHint"
+                                            aria-live="polite"
+                                        ></p>
+                                    </div>
+                                    <div
+                                        class="form-group hidden"
+                                        id="testingMailFromInputWrap"
+                                    >
+                                        <label>From (email)</label>
+                                        <input
+                                            type="email"
+                                            id="testingMailFrom"
+                                            placeholder="sender@domain.com"
+                                            autocomplete="off"
+                                            data-no-persist
+                                        />
+                                        <p
+                                            class="field-hint hidden"
+                                            id="testingMailFromInputHint"
+                                            aria-live="polite"
+                                        ></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>From (name)</label>
+                                        <input
+                                            type="text"
+                                            id="testingMailFromName"
+                                            placeholder="Optional (pre-filled if identity has one)"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Content mode</label>
+                                    <select id="testingMailContentMode">
+                                        <option value="simple">
+                                            Plain text (subject + body)
+                                        </option>
+                                        <option value="html">
+                                            Text + HTML
+                                        </option>
+                                        <option value="template">
+                                            Saved template
+                                        </option>
+                                    </select>
+                                </div>
+                                <div id="testingMailSimpleFields">
+                                    <div class="form-group">
+                                        <label>Subject</label>
+                                        <input
+                                            type="text"
+                                            id="testingMailSubject"
+                                            placeholder="Test subject"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Body (text)</label>
+                                        <textarea
+                                            id="testingMailBody"
+                                            rows="4"
+                                            placeholder="Plain text message..."
+                                        ></textarea>
+                                    </div>
+                                </div>
+                                <div id="testingMailHtmlFields" class="hidden">
+                                    <div class="form-group">
+                                        <label>Body (HTML)</label>
+                                        <textarea
+                                            id="testingMailHtml"
+                                            rows="6"
+                                            placeholder="&lt;p&gt;HTML version...&lt;/p&gt;"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                                <div
+                                    id="testingMailTemplateFields"
+                                    class="hidden"
+                                >
+                                    <div class="form-group">
+                                        <label>Template</label>
+                                        <select id="testingMailTemplateSelect">
+                                            <option value="">— Choose —</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="btn-primary btn-with-icon"
+                                    id="testingMailSendBtn"
+                                >
+                                    <span
+                                        data-ty-icon="send"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    Send test email
+                                </button>
+                                <div
+                                    class="testing-mail-log hidden"
+                                    id="testingMailResult"
+                                    aria-live="polite"
+                                    role="log"
+                                ></div>
+                            </article>
+
+                            <article class="testing-card testing-card--wide">
+                                <h2 class="testing-card-title">
+                                    SendGrid send activity log
+                                </h2>
+                                <p class="field-hint">
+                                    Latest messages seen by SendGrid (Email
+                                    Activity Feed API). Shows delivery status
+                                    (<em>delivered</em>, <em>not_delivered</em>,
+                                    <em>processed</em>) and open/click counts
+                                    per message.
+                                    <strong
+                                        >Requires the paid "Email Activity
+                                        History" add-on</strong
+                                    >
+                                    on your SendGrid account; without it, the
+                                    API returns an error.
+                                </p>
+                                <div class="form-row testing-form-row-2">
+                                    <div class="form-group">
+                                        <label>Source</label>
+                                        <select id="sgActivitySource">
+                                            <option value="saved">
+                                                Saved configuration
+                                            </option>
+                                            <option value="manual">
+                                                Manual input (SendGrid key)
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div
+                                        class="form-group"
+                                        id="sgActivitySavedWrap"
+                                    >
+                                        <label>SendGrid configuration</label>
+                                        <select id="sgActivitySmtpSelect">
+                                            <option value="">— Choose —</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div
+                                    class="form-row testing-form-row-2 hidden"
+                                    id="sgActivityManualWrap"
+                                >
+                                    <div class="form-group">
+                                        <label>SendGrid API key</label>
+                                        <input
+                                            type="text"
+                                            id="sgActivityManualKey"
+                                            class="testing-api-key-input"
+                                            autocomplete="off"
+                                            spellcheck="false"
+                                            placeholder="SG.…"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>API region</label>
+                                        <select id="sgActivityManualRegion">
+                                            <option value="">
+                                                Automatic (EU then US)
+                                            </option>
+                                            <option value="eu">
+                                                European Union
+                                            </option>
+                                            <option value="global">
+                                                United States / global
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row testing-form-row-3">
+                                    <div class="form-group">
+                                        <label>Number of messages</label>
+                                        <select id="sgActivityLimit">
+                                            <option value="10">
+                                                Latest 10
+                                            </option>
+                                            <option value="25" selected>
+                                                Latest 25
+                                            </option>
+                                            <option value="50">
+                                                Latest 50
+                                            </option>
+                                            <option value="100">
+                                                Latest 100
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <select id="sgActivityStatus">
+                                            <option value="">All</option>
+                                            <option value="delivered">
+                                                Delivered
+                                            </option>
+                                            <option value="not_delivered">
+                                                Not delivered (bounced /
+                                                dropped)
+                                            </option>
+                                            <option value="processed">
+                                                Processed (accepted by SendGrid)
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Recipient (optional)</label>
+                                        <input
+                                            type="email"
+                                            id="sgActivityTo"
+                                            placeholder="filter by to_email..."
+                                            autocomplete="off"
+                                        />
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="btn-primary btn-with-icon"
+                                    id="sgActivityRunBtn"
+                                >
+                                    <span
+                                        data-ty-icon="activity"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    Load activity
+                                </button>
+                                <p
+                                    class="field-hint hidden"
+                                    id="sgActivityStatusHint"
+                                    aria-live="polite"
+                                ></p>
+                                <div
+                                    class="sg-activity-output hidden"
+                                    id="sgActivityOutput"
+                                ></div>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- SMTP / API -->
+                    <section class="page hidden" id="page-smtp">
+                        <div class="page-header">
+                            <h1>SMTP / API</h1>
+                            <div class="page-header-actions">
+                                <button
+                                    type="button"
+                                    class="btn-primary btn-with-icon"
+                                    id="addSmtpBtn"
+                                >
+                                    <span
+                                        data-ty-icon="plus"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    Add configuration
+                                </button>
+                            </div>
+                        </div>
+                        <div class="config-section">
+                            <h2>SMTP / API configurations</h2>
+                            <p
+                                class="field-hint hidden"
+                                id="smtpListTestMessage"
+                                aria-live="polite"
+                            ></p>
+                            <div id="smtpList"></div>
+                            <div
+                                id="smtpEmptyState"
+                                class="page-empty-state hidden"
+                                aria-live="polite"
+                            ></div>
+                            <div class="smtp-form hidden" id="smtpForm">
+                                <input type="hidden" id="smtpConfigId" />
+                                <div class="form-group">
+                                    <label>Configuration name</label>
+                                    <input
+                                        type="text"
+                                        id="smtpName"
+                                        placeholder="Brevo Production"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Provider</label>
+                                    <select id="smtpProvider">
+                                        <option value="brevo">
+                                            Brevo (API)
+                                        </option>
+                                        <option value="smtp">
+                                            Generic SMTP
+                                        </option>
+                                        <option value="office365">
+                                            Microsoft 365 / Office 365 (SMTP)
+                                        </option>
+                                        <option value="mailgun">Mailgun</option>
+                                        <option value="sendgrid">
+                                            SendGrid
+                                        </option>
+                                        <option value="ses">Amazon SES</option>
+                                        <option value="postmark">
+                                            Postmark
+                                        </option>
+                                        <option value="mandrill">
+                                            Mandrill
+                                        </option>
+                                    </select>
+                                </div>
+                                <div
+                                    id="smtpMailgunGroup"
+                                    class="smtp-mailgun-block hidden"
+                                >
+                                    <div class="form-group">
+                                        <label>Sending domain</label>
+                                        <input
+                                            type="text"
+                                            id="smtpMailgunDomain"
+                                            placeholder="mg.example.com"
+                                            autocomplete="off"
+                                            spellcheck="false"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Mailgun API region</label>
+                                        <select id="smtpMailgunRegion">
+                                            <option value="us">
+                                                United States (api.mailgun.net)
+                                            </option>
+                                            <option value="eu">
+                                                European Union
+                                                (api.eu.mailgun.net)
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <p class="field-hint">
+                                        The Mailgun private API key is used via
+                                        Basic Auth ("api:KEY").
+                                    </p>
+                                </div>
+                                <p
+                                    class="field-hint hidden"
+                                    id="smtpSecretHint"
+                                >
+                                    Leave empty to keep current value: API key
+                                    (Brevo, etc.), Amazon SES Secret Access Key,
+                                    or saved SMTP password.
+                                </p>
+                                <div class="form-group" id="smtpApiKeyGroup">
+                                    <label id="smtpApiKeyLabel">API key</label>
+                                    <input
+                                        type="password"
+                                        id="smtpApiKey"
+                                        placeholder="xkeysib-..."
+                                        autocomplete="new-password"
+                                    />
+                                </div>
+                                <div
+                                    id="smtpOffice365Group"
+                                    class="form-group hidden"
+                                >
+                                    <p class="field-hint">
+                                        <strong>Recommended server:</strong>
+                                        <code>smtp.office365.com</code>, port
+                                        <strong>587</strong>, encryption
+                                        <strong>STARTTLS</strong> (TLS -
+                                        prefilled on save).
+                                        <strong>User:</strong> full Microsoft
+                                        365 email address.
+                                        <strong>Password:</strong> account
+                                        password or
+                                        <a
+                                            href="https://support.microsoft.com/account-billing/app-passwords-two-step-verification"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >app password</a
+                                        >
+                                        if MFA is enabled. Admin must enable
+                                        <a
+                                            href="https://learn.microsoft.com/en-us/exchange/clients-and-mobile-in-exchange-online/authenticated-client-smtp-submission"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >SMTP AUTH (authenticated SMTP
+                                            submission)</a
+                                        >
+                                        for this mailbox or tenant.
+                                        <strong
+                                            >US Government (GCC High):</strong
+                                        >
+                                        often use
+                                        <code>smtp.office365.us</code> as host.
+                                        Keep volume reasonable: Microsoft
+                                        enforces tenant-side quotas.
+                                    </p>
+                                </div>
+                                <div
+                                    id="smtpSendgridGroup"
+                                    class="form-group hidden"
+                                >
+                                    <label>SendGrid API region</label>
+                                    <select id="smtpSendgridRegion">
+                                        <option value="">
+                                            Automatic (EU then US -
+                                            introspection)
+                                        </option>
+                                        <option value="eu">
+                                            European Union (api.eu.sendgrid.com)
+                                        </option>
+                                        <option value="global">
+                                            United States / global
+                                            (api.sendgrid.com)
+                                        </option>
+                                    </select>
+                                    <p class="field-hint">
+                                        For accounts with EU data residency,
+                                        choose "European Union" for sending and
+                                        API calls. "Automatic" tries EU then US
+                                        for introspection only; Symfony sending
+                                        stays on US host unless EU is selected
+                                        here.
+                                    </p>
+                                </div>
+                                <div
+                                    id="smtpSesGroup"
+                                    class="smtp-ses-block hidden"
+                                >
+                                    <div class="form-group">
+                                        <label
+                                            >Access Key ID
+                                            <span class="label-hint"
+                                                >(IAM, ex. AKIA…)</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="smtpAwsAccessKey"
+                                            autocomplete="off"
+                                            spellcheck="false"
+                                            placeholder="AKIA…"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Secret Access Key</label>
+                                        <input
+                                            type="password"
+                                            id="smtpAwsSecretKey"
+                                            autocomplete="new-password"
+                                            placeholder="IAM secret key"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Amazon SES region</label>
+                                        <select id="smtpAwsRegion">
+                                            <option value="eu-west-3">
+                                                Europe (Paris) — eu-west-3
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <p class="field-hint smtp-ses-ak-hint">
+                                        AWS does not allow API calls with only
+                                        the visible key (AKIA...). The
+                                        <strong>Secret Access Key</strong> is
+                                        required to read quotas and identities.
+                                    </p>
+                                    <div class="smtp-ses-btn-row">
+                                        <button
+                                            type="button"
+                                            class="btn-secondary btn-sm btn-with-icon"
+                                            id="smtpSesProbeAllBtn"
+                                        >
+                                            <span
+                                                data-ty-icon="activity"
+                                                data-ty-icon-size="16"
+                                            ></span>
+                                            Scan all regions
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn-secondary btn-sm btn-with-icon"
+                                            id="smtpSesInspectBtn"
+                                        >
+                                            <span
+                                                data-ty-icon="search"
+                                                data-ty-icon-size="16"
+                                            ></span>
+                                            Selected region details
+                                        </button>
+                                    </div>
+                                    <div
+                                        id="smtpSesInspectResult"
+                                        class="smtp-ses-inspect-result hidden"
+                                        aria-live="polite"
+                                    ></div>
+                                </div>
+                                <div
+                                    class="form-group smtp-credentials hidden"
+                                    id="smtpHostGroup"
+                                >
+                                    <label>Host SMTP</label>
+                                    <input
+                                        type="text"
+                                        id="smtpHost"
+                                        placeholder="smtp.monprovider.com"
+                                    />
+                                </div>
+                                <div
+                                    class="form-row smtp-credentials hidden"
+                                    id="smtpPortUserGroup"
+                                >
+                                    <div class="form-group">
+                                        <label>Port</label>
+                                        <input
+                                            type="number"
+                                            id="smtpPort"
+                                            value="587"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>User</label>
+                                        <input
+                                            type="text"
+                                            id="smtpUser"
+                                            placeholder="user@domain.com"
+                                        />
+                                    </div>
+                                </div>
+                                <div
+                                    class="form-group smtp-credentials hidden"
+                                    id="smtpPassGroup"
+                                >
+                                    <label>Password</label>
+                                    <input
+                                        type="password"
+                                        id="smtpPass"
+                                        autocomplete="new-password"
+                                    />
+                                </div>
+                                <div class="form-actions">
+                                    <button
+                                        type="button"
+                                        class="btn-secondary"
+                                        id="cancelSmtpBtn"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn-primary"
+                                        id="saveSmtpBtn"
+                                    >
+                                        Save
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn-secondary"
+                                        id="testSmtpBtn"
+                                    >
+                                        Test connection
+                                    </button>
+                                </div>
+                                <p
+                                    class="field-hint hidden"
+                                    id="smtpTestResult"
+                                    aria-live="polite"
+                                ></p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Settings (unsubscribe, DNS) -->
+                    <section
+                        class="page hidden"
+                        id="page-config"
+                        data-persist-inputs="true"
+                    >
+                        <div class="page-header">
+                            <h1>Settings</h1>
+                        </div>
+
+                        <!-- Unsubscribe URL -->
+                        <div class="config-section">
+                            <h2>Unsubscribe</h2>
+                            <div class="form-group">
+                                <label
+                                    >Unsubscribe URL
+                                    <span class="label-hint"
+                                        >(optional but recommended)</span
+                                    ></label
+                                >
+                                <input
+                                    type="url"
+                                    id="unsubscribeUrl"
+                                    placeholder="https://mysite.com/unsub"
+                                />
+                                <p class="field-hint">
+                                    If configured, enables Gmail one-click
+                                    unsubscribe (RFC 8058). Without URL, only
+                                    mailto is sent.
+                                </p>
+                            </div>
+                            <button class="btn-primary" id="saveUnsubBtn">
+                                Save
+                            </button>
+                        </div>
+
+                        <!-- DNS guide -->
+                        <div class="config-section" id="dnsGuideSection">
+                            <h2>DNS Guide — Email authentication</h2>
+                            <div class="dns-info-banner">
+                                <p>
+                                    Without DKIM configured on your domain,
+                                    emails are signed as
+                                    <strong>@brevosend.com</strong> and you
+                                    build no sender reputation. It usually takes
+                                    about 15 minutes with your registrar.
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <label>Your sending domain</label>
+                                <input
+                                    type="text"
+                                    id="dnsDomain"
+                                    placeholder="mydomain.com"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    >DKIM selector
+                                    <span class="label-hint"
+                                        >(default: mail)</span
+                                    ></label
+                                >
+                                <input
+                                    type="text"
+                                    id="dkimSelector"
+                                    value="mail"
+                                />
+                            </div>
+                            <div class="dns-records" id="dnsRecords"></div>
+                            <div class="dns-actions">
+                                <button
+                                    class="btn-secondary"
+                                    id="showDnsRecordsBtn"
+                                >
+                                    Show records to copy
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn-primary btn-with-icon"
+                                    id="verifyDnsBtn"
+                                >
+                                    <span
+                                        data-ty-icon="search"
+                                        data-ty-icon-size="18"
+                                    ></span>
+                                    Verify propagation
+                                </button>
+                            </div>
+                            <div
+                                class="dns-results hidden"
+                                id="dnsResults"
+                            ></div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <!-- Template modal: info (compact) then fullscreen HTML editor -->
+        <div
+            class="modal-overlay hidden"
+            id="templateEditorModal"
+            aria-hidden="true"
+        >
+            <div
+                class="modal modal-template-editor"
+                id="templateEditorModalInner"
+                role="dialog"
+                aria-labelledby="templateEditorModalTitle"
+                data-bwignore
+                data-lpignore="true"
+                data-1p-ignore="true"
+                data-dashlane-ignore="true"
+            >
+                <div
+                    id="templateEditorPhaseMain"
+                    class="template-editor-phase-main"
+                >
+                    <div class="template-editor-header">
+                        <h3 id="templateEditorModalTitle">New template</h3>
+                        <button
+                            type="button"
+                            class="modal-close-btn template-editor-close-btn"
+                            id="closeTemplateEditorModal"
+                            aria-label="Close editor"
+                        >
+                            <span
+                                data-ty-icon="x"
+                                data-ty-icon-size="22"
+                            ></span>
+                        </button>
+                    </div>
+                    <input type="hidden" id="templateId" />
+                    <div class="form-group">
+                        <label>Template name</label>
+                        <input
+                            type="text"
+                            id="templateName"
+                            placeholder="Newsletter Mai 2025"
+                            autocomplete="off"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>Email subject</label>
+                        <input
+                            type="text"
+                            id="templateSubject"
+                            placeholder="Your subject here"
+                            autocomplete="off"
+                        />
+                    </div>
+                    <div class="template-vars-guide" id="templateVarsGuide">
+                        <button
+                            type="button"
+                            class="template-vars-guide-toggle"
+                            id="templateVarsGuideBtn"
+                            aria-expanded="false"
+                            aria-controls="templateVarsGuidePanel"
+                        >
+                            Message variables guide
+                        </button>
+                        <div
+                            id="templateVarsGuidePanel"
+                            class="template-vars-guide-panel hidden"
+                            role="region"
+                            aria-labelledby="templateVarsGuideBtn"
+                        >
+                            <div class="template-vars-guide-body">
+                                <p>
+                                    <strong>TXT file</strong>: one address per
+                                    line. Available variable:
+                                    <code>{{email}}</code>; if a line is in
+                                    <code>First/Last/email@site.com</code>
+                                    format, you also get
+                                    <code>{{prenom}}</code>,
+                                    <code>{{nom}}</code>, <code>{{name}}</code>.
+                                </p>
+                                <p>
+                                    <strong>CSV file</strong>: after import, map
+                                    your columns. Each recipient receives values
+                                    from <strong>their own row</strong> for all
+                                    variables.
+                                </p>
+                                <ul class="template-vars-guide-list">
+                                    <li>
+                                        <code>{{prenom}}</code> /
+                                        <code>{{first_name}}</code> - first name
+                                    </li>
+                                    <li>
+                                        <code>{{nom}}</code> /
+                                        <code>{{last_name}}</code> - last name
+                                    </li>
+                                    <li>
+                                        <code>{{name}}</code>,
+                                        <code>{{nom_complet}}</code> - full name
+                                    </li>
+                                    <li>
+                                        <code>{{email}}</code> - recipient
+                                        address
+                                    </li>
+                                    <li>
+                                        <code>{{rotate_url}}</code> or
+                                        <code>{{url_rotate}}</code> - URL from a
+                                        rotating list (see below)
+                                    </li>
+                                    <li>
+                                        <code>{{date}}</code>,
+                                        <code>{{time}}</code>,
+                                        <code>{{datetime}}</code> - send
+                                        date/time
+                                    </li>
+                                    <li>
+                                        Random variables:
+                                        <code>{{RANDNUM-6}}</code>,
+                                        <code>{{RANDALPHA-8}}</code>,
+                                        <code>{{RANDALPHANUM-10}}</code>
+                                    </li>
+                                    <li>
+                                        Your custom CSV columns:
+                                        <code>{{my_variable}}</code> (lowercase
+                                        and underscores)
+                                    </li>
+                                </ul>
+                                <p class="field-hint">
+                                    Accepted syntax:
+                                    <code>{{variable}}</code> or
+                                    <code>{variable}</code>. Keys are
+                                    case-insensitive.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-rotate-block" id="templateRotateBlock">
+                        <h4 class="template-rotate-heading">
+                            Rotating links
+                            <span class="label-hint">({{rotate_url}})</span>
+                        </h4>
+                        <p class="field-hint">
+                            If you use <code>{{rotate_url}}</code> (or
+                            <code>{{url_rotate}}</code>) in subject, HTML, or
+                            text, provide one URL per line. The campaign rotates
+                            these links based on the frequency below (global
+                            sent-email index).
+                        </p>
+                        <div class="form-group">
+                            <label>URLs (one per line)</label>
+                            <textarea
+                                id="templateRotateUrls"
+                                class="template-rotate-urls"
+                                rows="4"
+                                placeholder="https://exemple.com/tracking-a&#10;https://exemple.com/tracking-b"
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label
+                                >Keep same URL for
+                                <span class="label-hint"
+                                    >(number of emails)</span
+                                ></label
+                            >
+                            <input
+                                type="number"
+                                id="templateRotateEvery"
+                                min="1"
+                                value="1"
+                                class="template-rotate-every-input"
+                            />
+                        </div>
+                        <p
+                            class="field-hint template-rotate-detect-hint hidden"
+                            id="templateRotateDetectHint"
+                        >
+                            The <code>{{rotate_url}}</code> variable is detected
+                            in the message - remember to fill the URL list.
+                        </p>
+                    </div>
+                    <div class="form-group template-editor-plain">
+                        <label
+                            >Plain text
+                            <span class="label-hint"
+                                >(optional - auto-generated if empty)</span
+                            ></label
+                        >
+                        <textarea
+                            id="templateText"
+                            class="template-plain-textarea"
+                            rows="5"
+                            placeholder="Text version..."
+                        ></textarea>
+                    </div>
+                    <button
+                        type="button"
+                        class="btn-secondary template-open-code-btn btn-with-icon"
+                        id="openTemplateCodeEditorBtn"
+                    >
+                        <span data-ty-icon="code" data-ty-icon-size="18"></span>
+                        Edit HTML code...
+                    </button>
+                    <div class="modal-actions template-editor-actions">
+                        <button
+                            type="button"
+                            class="btn-secondary"
+                            id="cancelTemplateBtn"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            class="btn-primary"
+                            id="saveTemplateBtn"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+                <div
+                    id="templateEditorPhaseCode"
+                    class="template-editor-phase-code hidden"
+                    aria-hidden="true"
+                >
+                    <div class="template-code-phase-toolbar">
+                        <button
+                            type="button"
+                            class="btn-secondary btn-sm template-back-code-btn btn-with-icon"
+                            id="backTemplateCodeEditorBtn"
+                        >
+                            <span
+                                data-ty-icon="arrow-left"
+                                data-ty-icon-size="16"
+                            ></span>
+                            Back to details
+                        </button>
+                        <div class="template-code-phase-heading">
+                            <span class="template-code-phase-title"
+                                >HTML body &amp; preview</span
+                            >
+                            <span
+                                class="template-preview-hint template-code-phase-hint"
+                                id="templatePreviewHintLine"
+                                >Preview: sample data - use "Apply" to inject a
+                                real list row.</span
+                            >
+                        </div>
+                        <button
+                            type="button"
+                            class="modal-close-btn template-editor-close-btn template-code-phase-close"
+                            id="closeTemplateCodeEditorModal"
+                            aria-label="Close editor"
+                        >
+                            <span
+                                data-ty-icon="x"
+                                data-ty-icon-size="22"
+                            ></span>
+                        </button>
+                    </div>
+                    <div
+                        class="template-editor-code-controls"
+                        id="templateEditorCodeControls"
+                    >
+                        <div class="template-control-group">
+                            <span class="template-control-label">Editing</span>
+                            <div
+                                class="segmented-control"
+                                role="tablist"
+                                aria-label="HTML editing mode"
+                            >
+                                <button
+                                    type="button"
+                                    class="segmented-btn"
+                                    id="templateModeVisualBtn"
+                                    role="tab"
+                                    aria-selected="false"
+                                >
+                                    Visual
+                                </button>
+                                <button
+                                    type="button"
+                                    class="segmented-btn segmented-btn--active"
+                                    id="templateModeCodeBtn"
+                                    role="tab"
+                                    aria-selected="true"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            class="template-control-group template-real-data-group"
+                        >
+                            <span class="template-control-label"
+                                >Real data</span
+                            >
+                            <select
+                                id="templatePreviewCampaignSelect"
+                                class="template-preview-campaign-select"
+                                aria-label="Campaign or draft for preview"
+                            >
+                                <option value="">— Sample data —</option>
+                                <option value="__draft__">
+                                    Current draft (campaign form)
+                                </option>
+                            </select>
+                            <label
+                                class="template-row-index-label"
+                                for="templatePreviewRowIndex"
+                                >Row #</label
+                            >
+                            <input
+                                type="number"
+                                id="templatePreviewRowIndex"
+                                class="template-preview-row-input"
+                                min="0"
+                                value="0"
+                                title="Recipient index after dedupe / filters (0 = first)"
+                            />
+                            <button
+                                type="button"
+                                class="btn-secondary btn-sm btn-with-icon"
+                                id="templatePreviewApplyRealBtn"
+                            >
+                                <span
+                                    data-ty-icon="refresh-cw"
+                                    data-ty-icon-size="16"
+                                ></span>
+                                Apply
+                            </button>
+                        </div>
+                        <div class="template-control-group">
+                            <span class="template-control-label"
+                                >Preview frame</span
+                            >
+                            <div
+                                class="segmented-control"
+                                role="tablist"
+                                aria-label="Preview width"
+                            >
+                                <button
+                                    type="button"
+                                    class="segmented-btn segmented-btn--active"
+                                    id="templatePreviewDeviceDesktop"
+                                    role="tab"
+                                    aria-selected="true"
+                                >
+                                    Desktop
+                                </button>
+                                <button
+                                    type="button"
+                                    class="segmented-btn"
+                                    id="templatePreviewDeviceMobile"
+                                    role="tab"
+                                    aria-selected="false"
+                                >
+                                    Mobile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="template-editor-split template-editor-split--fullscreen"
+                    >
+                        <div class="template-editor-pane template-editor-code">
+                            <div
+                                id="templateVisualWrap"
+                                class="template-visual-wrap hidden"
+                                aria-hidden="true"
+                            >
+                                <label class="template-pane-label"
+                                    >Visual editor</label
+                                >
+                                <p class="template-visual-hint">
+                                    HTML remains identical to code mode (tables,
+                                    styles, MSO comments). Scripts do not run in
+                                    this secure frame.
+                                </p>
+                                <iframe
+                                    id="templateVisualIframe"
+                                    class="template-visual-iframe"
+                                    title="Email HTML visual editor"
+                                    sandbox="allow-same-origin"
+                                ></iframe>
+                            </div>
+                            <div
+                                id="templateCodeEditorWrap"
+                                class="template-code-editor-wrap"
+                            >
+                                <label
+                                    class="template-pane-label"
+                                    for="templateHtml"
+                                    >HTML</label
+                                >
+                                <textarea
+                                    id="templateHtml"
+                                    class="template-code-textarea template-code-textarea--fullscreen"
+                                    spellcheck="false"
+                                    placeholder="&lt;p&gt;Hello {{prenom}},&lt;/p&gt;"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div
+                            class="template-editor-pane template-editor-preview-wrap"
+                        >
+                            <div class="template-preview-pane-head">
+                                <span class="template-pane-label">Preview</span>
+                                <span
+                                    class="template-preview-subject-line hidden"
+                                    id="templatePreviewSubjectLine"
+                                    aria-live="polite"
+                                ></span>
+                            </div>
+                            <div
+                                class="template-preview-viewport"
+                                id="templatePreviewViewport"
+                                data-device="desktop"
+                            >
+                                <iframe
+                                    id="templatePreviewFrame"
+                                    class="template-preview-frame template-preview-frame--fullscreen"
+                                    title="Email preview"
+                                ></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Template save toast -->
+        <div
+            id="templateSaveToast"
+            class="template-save-toast"
+            role="status"
+            aria-live="polite"
+        ></div>
+
+        <!-- Unsaved draft -->
+        <div
+            class="modal-overlay hidden"
+            id="templateUnsavedDialog"
+            aria-modal="true"
+            role="dialog"
+            aria-labelledby="templateUnsavedTitle"
+        >
+            <div class="modal template-unsaved-modal">
+                <h3 id="templateUnsavedTitle">Save changes?</h3>
+                <p class="template-unsaved-text">
+                    Some changes were not saved. What do you want to do?
+                </p>
+                <div class="template-unsaved-actions">
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="templateUnsavedCancel"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="templateUnsavedDiscard"
+                    >
+                        Exit without saving
+                    </button>
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        id="templateUnsavedSave"
+                    >
+                        Save and exit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pre-send summary -->
+        <div
+            class="modal-overlay hidden"
+            id="sendSummaryModal"
+            aria-hidden="true"
+            role="dialog"
+            aria-labelledby="sendSummaryTitle"
+            aria-modal="true"
+        >
+            <div class="modal send-summary-modal">
+                <h3 id="sendSummaryTitle">Pre-send summary</h3>
+                <p class="send-summary-lead" id="sendSummaryLead">
+                    Review the settings below before starting the send.
+                </p>
+                <div class="send-summary-body" id="sendSummaryBody"></div>
+                <p
+                    class="field-hint send-summary-notify-hint hidden"
+                    id="sendSummaryNotifyHint"
+                >
+                    Browser notifications are disabled - you can enable them to
+                    be notified when sending finishes.
+                </p>
+                <div class="modal-actions send-summary-actions">
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="sendSummaryCancel"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="btn-primary btn-with-icon"
+                        id="sendSummaryConfirm"
+                    >
+                        <span data-ty-icon="send" data-ty-icon-size="18"></span>
+                        Confirm send
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal confirmation force send -->
+        <div class="modal-overlay hidden" id="forceSendModal">
+            <div class="modal">
+                <h3>Send despite a low score?</h3>
+                <p id="forceSendModalText"></p>
+                <div class="modal-actions">
+                    <button class="btn-secondary" id="cancelForceSend">
+                        Cancel
+                    </button>
+                    <button class="btn-danger" id="confirmForceSend">
+                        Confirm send
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal confirmation delete campaign -->
+        <div
+            class="modal-overlay hidden"
+            id="deleteCampaignModal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="deleteCampaignTitle"
+            aria-hidden="true"
+        >
+            <div class="modal">
+                <h3 id="deleteCampaignTitle">Delete campaign?</h3>
+                <p id="deleteCampaignText">
+                    This will permanently delete the campaign and its logs. This
+                    action cannot be undone.
+                </p>
+                <div class="modal-actions">
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="cancelDeleteCampaign"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="btn-danger"
+                        id="confirmDeleteCampaign"
+                    >
+                        Delete campaign
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script src="icons.js"></script>
+        <script src="tauri-adapter.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/htmlhint@1.1.4/dist/htmlhint.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/lint/lint.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/lint/html-lint.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/display/autorefresh.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="legacy-app.js"></script>
+
+        <!-- Update modal -->
+        <div
+            class="modal-overlay hidden"
+            id="updateModal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="updateModalTitle"
+        >
+            <div class="modal-box update-modal-box">
+                <h3 id="updateModalTitle">Update available</h3>
+                <div class="update-versions">
+                    <span
+                        class="update-version-current"
+                        id="updateCurrentVer"
+                    ></span>
+                    <span class="update-arrow">→</span>
+                    <span class="update-version-new" id="updateNewVer"></span>
+                </div>
+                <div class="update-changelog" id="updateChangelog"></div>
+                <div class="update-actions">
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="updateDismissBtn"
+                    >
+                        Later
+                    </button>
+                    <button
+                        type="button"
+                        class="btn-primary btn-with-icon"
+                        id="updateDownloadBtn"
+                    >
+                        <span
+                            data-ty-icon="download"
+                            data-ty-icon-size="16"
+                        ></span>
+                        Install update
+                    </button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

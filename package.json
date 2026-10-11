@@ -1,0 +1,19 @@
+{
+  "name": "winmail",
+  "private": true,
+  "version": "1.0.13",
+  "type": "module",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "build:appimage": "NO_STRIP=true tauri build --bundles appimage",
+    "check:rust": "cargo check --manifest-path src-tauri/Cargo.toml"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "latest"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "latest"
+  }
+}

@@ -1,0 +1,67 @@
+name: Release
+
+# Builds & publishes the Windows installer for WinMail when a `v*` tag is
+# pushed (or when manually triggered) and attaches it to the GitHub release for
+# that tag. Linux installers (.deb/.rpm/.AppImage) are built locally and added
+# to the release directly. (macOS can be re-enabled by adding a `macos-latest`
+# matrix entry and setting `bundle.targets` to `"all"` in tauri.conf.json.)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            args: ""
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry & target
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install JS deps
+        run: npm install
+
+      - name: Build & publish (tauri-action)
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Tag name & names come from the ref so multiple matrix jobs converge
+          # on the same release. tauri-action upserts artefacts to it.
+          tagName: ${{ github.ref_name }}
+          releaseName: "WinMail ${{ github.ref_name }}"
+          releaseBody: |
+            Native installers for WinMail ${{ github.ref_name }}.
+
+            - **Linux** — `.deb` (Debian/Ubuntu), `.rpm` (Fedora/RHEL), `.AppImage` (any glibc-based distro).
+            - **Windows** — `-setup.exe` (NSIS). Requires WebView2.
+
+            See the [README](https://github.com/WindowS-gif/WinMail#readme) for usage.
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.args }}
