@@ -539,45 +539,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724"
 
 [[package]]
-name = "winmail"
-version = "1.0.13"
-dependencies = [
- "aes-gcm",
- "base64 0.22.1",
- "chrono",
- "csv",
- "email_address",
- "hex",
- "hickory-resolver",
- "hmac",
- "html2text",
- "lettre",
- "once_cell",
- "rand 0.9.4",
- "regex",
- "reqwest 0.12.28",
- "rfd",
- "rustls",
- "rustls-platform-verifier",
- "serde",
- "serde_json",
- "sha2",
- "tauri",
- "tauri-build",
- "tauri-plugin-opener",
- "thiserror 2.0.18",
- "tokio",
- "tokio-rustls",
- "tokio-socks",
- "tokio-util",
- "tracing",
- "tracing-appender",
- "tracing-subscriber",
- "url",
- "uuid",
-]
-
-[[package]]
 name = "chrono"
 version = "0.4.44"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6022,6 +5983,45 @@ name = "windows_x86_64_msvc"
 version = "0.53.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d6bbff5f0aada427a1e5a6da5f1f98158182f26556f345ac9e04d36d0ebed650"
+
+[[package]]
+name = "winmail"
+version = "1.0.13"
+dependencies = [
+ "aes-gcm",
+ "base64 0.22.1",
+ "chrono",
+ "csv",
+ "email_address",
+ "hex",
+ "hickory-resolver",
+ "hmac",
+ "html2text",
+ "lettre",
+ "once_cell",
+ "rand 0.9.4",
+ "regex",
+ "reqwest 0.12.28",
+ "rfd",
+ "rustls",
+ "rustls-platform-verifier",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-opener",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-rustls",
+ "tokio-socks",
+ "tokio-util",
+ "tracing",
+ "tracing-appender",
+ "tracing-subscriber",
+ "url",
+ "uuid",
+]
 
 [[package]]
 name = "winnow"
