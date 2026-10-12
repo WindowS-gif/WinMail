@@ -150,11 +150,28 @@ Credentials are never written to log lines — proxy labels are always redacted.
 
 ## Deliverability tools
 
-Before you commit to a send:
+Every template gets scored out of 100 before you commit to a send. Each check
+is either an issue (with a severity, a penalty and a suggested fix) or a pass,
+so you always know *why* the score is what it is:
 
-- **Spam score** — keyword density against a real spam-word list, image-to-text
-  ratio, total HTML weight, link count and quality, unsubscribe link presence,
-  and a From-domain consistency check.
+| Check | What it looks for | Penalty |
+|---|---|---|
+| `spam_subject` | spam words in the subject line | up to −20 |
+| `spam_body` | spam-word density in the body | up to −10 |
+| `text_image_ratio` | too little text next to too many images | −15 / −7 |
+| `html_size` | HTML heavier than 102KB (Gmail clips at that point) | −10 |
+| `multipart` | missing or too-short `text/plain` alternative | −10 |
+| `unsubscribe` | no unsubscribe URL configured | −15 |
+| `links` | URL shorteners, insecure `http://` links, too many different domains | up to −10 |
+| `subject_length` | subject longer than 60 characters | −5 |
+| `from_domain` | From address on a free mailbox (Gmail, Outlook, Orange…, 16 domains checked) | −5 |
+| `img_alt` | images with no `alt` attribute | warning |
+
+Grades: **Excellent** (≥90), **Good** (≥75), **Needs work** (≥50),
+**Do not send** (<50).
+
+Alongside the score:
+
 - **DNS verification** — SPF, DKIM and DMARC records for the sending domain,
   resolved live.
 - **Provider quotas** — remaining credits, reputation and sender verification
@@ -261,7 +278,7 @@ src-tauri/
   src/mailer/           SMTP, and the SOCKS5 / HTTP CONNECT SMTP tunnel
   src/providers/        One module per API provider
   src/template/         Personalisation and rendering engine
-  src/scoring/          Spam word list and deliverability scoring
+  src/scoring/          Spam word list (the scoring rules live in commands/scoring.rs)
   src/security/         AES-256-GCM secret storage
   src/storage/          JSON persistence layer
 ```
