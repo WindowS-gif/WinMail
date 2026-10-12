@@ -9568,3 +9568,34 @@ a:hover {
 .main-content {
     overflow-x: hidden;
 }
+/* ==========================================================================
+   DASHBOARD WELCOME — WINMAIL LOGO
+   --------------------------------------------------------------------------
+   The welcome card renders a generic "hexagon" glyph. Swap it for the WinMail
+   flag here (styles only) so the JS template that builds the card is untouched.
+   ========================================================================== */
+
+.dashboard-empty-inner .empty-state-icon {
+    width: 112px;
+    height: 112px;
+    margin: 0 auto 20px;
+    background-image: url("assets/winmail-logo.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 1;
+    filter: drop-shadow(0 8px 18px rgba(10, 55, 95, 0.26));
+}
+
+.dashboard-empty-inner .empty-state-icon > svg {
+    display: none !important;
+}
+
+/* Keep the wordmark in step with the larger mark above it. */
+.dashboard-empty-inner .empty-state-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--win-ink);
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
