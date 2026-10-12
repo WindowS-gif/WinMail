@@ -7888,3 +7888,1683 @@ a {
     gap: 10px;
     flex-wrap: wrap;
 }
+/* ==========================================================================
+   AERO GLASS DESKTOP — v2 THEME LAYER
+   --------------------------------------------------------------------------
+   Visual only. No markup, identifier or logic change: this layer restyles the
+   existing components into a Windows 7 "Aero" desktop — glass window shell,
+   navigation pane, glass command ribbon, Aero controls and Win7 scrollbars.
+   ========================================================================== */
+
+:root {
+    /* Win7 Aero palette */
+    --desk-deep: #08355f;
+    --desk-mid: #0f6096;
+    --desk-high: #3f9cd4;
+    --desk-glow: #8ed2f2;
+
+    --win-face: #f4f9fd;
+    --win-face-2: #e8f2fa;
+    --win-paper: #ffffff;
+    --win-pane: #eef6fc;
+
+    --win-edge: #9dc2de;
+    --win-edge-soft: #c6dcee;
+    --win-edge-hard: #7ba7c9;
+
+    --win-ink: #123449;
+    --win-ink-soft: #41637e;
+    --win-ink-faint: #7793aa;
+
+    --win-blue: #2d7fd1;
+    --win-blue-dark: #17569e;
+    --win-blue-light: #86c6f2;
+    --win-focus: rgba(70, 170, 245, 0.55);
+    --win-green: #46a83c;
+    --win-red: #d1463a;
+    --win-amber: #dfa32b;
+
+    --win-shadow: 0 16px 40px rgba(4, 30, 56, 0.38);
+    --win-sheen: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.92) 0%,
+        rgba(255, 255, 255, 0.35) 48%,
+        rgba(255, 255, 255, 0) 52%,
+        rgba(255, 255, 255, 0.14) 100%
+    );
+
+    /* Remap the application tokens onto the Aero palette so every existing
+       component that reads them follows the new theme. */
+    --bg-base: var(--win-paper);
+    --bg-surface: var(--win-face);
+    --bg-elevated: var(--win-face-2);
+    --bg-subtle: var(--win-pane);
+    --accent: var(--win-blue);
+    --accent-light: var(--win-blue-dark);
+    --accent-glow: rgba(45, 127, 209, 0.18);
+    --text-primary: var(--win-ink);
+    --text-muted: var(--win-ink-soft);
+    --text-faint: var(--win-ink-faint);
+    --line: rgba(120, 165, 200, 0.35);
+    --line-strong: rgba(100, 150, 190, 0.55);
+    --success: var(--win-green);
+    --warning: var(--win-amber);
+    --danger: var(--win-red);
+    --radius-lg: 8px;
+    --radius-md: 6px;
+}
+
+/* ---------------------------------------------------------------- desktop */
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family:
+        "Segoe UI",
+        "Plus Jakarta Sans",
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    color: var(--win-ink);
+    background-color: var(--desk-mid);
+    background-image:
+        radial-gradient(
+            130% 70% at 50% -25%,
+            rgba(255, 255, 255, 0.62) 0%,
+            rgba(255, 255, 255, 0) 58%
+        ),
+        radial-gradient(
+            90% 55% at 50% 118%,
+            rgba(190, 235, 255, 0.42) 0%,
+            rgba(190, 235, 255, 0) 60%
+        ),
+        linear-gradient(
+            176deg,
+            var(--desk-deep) 0%,
+            var(--desk-mid) 32%,
+            var(--desk-high) 66%,
+            var(--desk-glow) 100%
+        );
+    background-attachment: fixed;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* ------------------------------------------------------------ app window */
+
+/* .app-layout is the maximised Aero window: it keeps the existing
+   position:fixed / inset wiring and only gains the glass frame. */
+.app-layout {
+    background: var(--win-face);
+    border-top: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+/* Aero "window edge": the bright glass rim of a maximised Win7 window. */
+.app-layout::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.45),
+        inset 0 0 22px rgba(120, 195, 240, 0.22);
+}
+
+/* --------------------------------------------------------------- titlebar */
+
+.titlebar {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.24) 0%,
+            rgba(210, 235, 252, 0.1) 46%,
+            rgba(10, 40, 70, 0.34) 52%,
+            rgba(6, 28, 52, 0.52) 100%
+        ),
+        linear-gradient(180deg, #2f6f9f 0%, #1d4f7c 52%, #143c62 100%);
+    border-bottom: 1px solid rgba(6, 32, 58, 0.85);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.42),
+        0 1px 0 rgba(255, 255, 255, 0.22),
+        0 2px 10px rgba(4, 30, 56, 0.35);
+    color: #eaf6ff;
+}
+
+.titlebar-title {
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(4, 30, 56, 0.75);
+}
+
+.titlebar-logo {
+    border-radius: 3px;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.38),
+        0 1px 3px rgba(4, 30, 56, 0.5);
+}
+
+.titlebar-btn {
+    width: 45px;
+    color: #dceafa;
+    border-radius: 0;
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.14);
+}
+
+.titlebar-btn:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.34) 0%,
+        rgba(150, 205, 240, 0.24) 50%,
+        rgba(90, 155, 205, 0.3) 100%
+    );
+    color: #ffffff;
+}
+
+.titlebar-btn:focus-visible {
+    background: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.75);
+}
+
+.titlebar-btn--close:hover,
+.titlebar-btn--close:focus-visible {
+    background: linear-gradient(180deg, #f08a7b 0%, #dd4f3d 50%, #b32c1c 100%);
+    color: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* -------------------------------------------------- sidebar: icon ribbon */
+
+.sidebar-icons {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(240, 248, 254, 0.72) 52%,
+            rgba(214, 234, 248, 0.72) 100%
+        );
+    border-right: 1px solid var(--win-edge-soft);
+    box-shadow:
+        inset -1px 0 0 rgba(255, 255, 255, 0.7),
+        1px 0 6px rgba(10, 55, 95, 0.06);
+}
+
+.sidebar-logo {
+    border-bottom: 1px solid var(--win-edge-soft);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.sidebar-logo img {
+    filter: drop-shadow(0 2px 3px rgba(10, 55, 95, 0.3));
+}
+
+.nav-icon {
+    color: #4f7794;
+    position: relative;
+    transition:
+        background 0.14s ease,
+        color 0.14s ease,
+        box-shadow 0.14s ease;
+}
+
+.nav-icon:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(214, 238, 252, 0.95) 0%,
+        rgba(180, 219, 244, 0.9) 50%,
+        rgba(150, 200, 235, 0.9) 100%
+    );
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.75);
+    color: var(--win-blue-dark);
+}
+
+.nav-icon.active {
+    background: linear-gradient(
+        180deg,
+        rgba(215, 240, 255, 0.98) 0%,
+        rgba(163, 213, 246, 0.96) 48%,
+        rgba(120, 183, 231, 0.96) 100%
+    );
+    color: var(--win-blue-dark);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.85),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        0 0 0 1px rgba(120, 175, 220, 0.55),
+        0 0 14px rgba(120, 195, 240, 0.5);
+}
+
+.nav-icon.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(
+        180deg,
+        var(--win-blue-light),
+        var(--win-blue-dark)
+    );
+    box-shadow: 0 0 8px rgba(120, 195, 240, 0.9);
+}
+
+.nav-icon-panel-toggle {
+    border-top: 1px solid var(--win-edge-soft);
+}
+
+/* --------------------------------------------------- sidebar: nav pane */
+
+.sidebar-panel {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.85) 0%,
+            rgba(238, 246, 252, 0.92) 100%
+        );
+    border-right: 1px solid var(--win-edge-soft);
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.6);
+}
+
+.panel-header {
+    color: #5f8299;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Win7 navigation-pane list items: graduated hover + blue selected pill. */
+.nav-item {
+    border-radius: 5px;
+    color: var(--win-ink);
+    font-weight: 500;
+    transition:
+        background 0.13s ease,
+        color 0.13s ease,
+        box-shadow 0.13s ease;
+}
+
+.nav-item:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(223, 241, 253, 0.95) 0%,
+        rgba(196, 228, 248, 0.95) 100%
+    );
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    color: var(--win-blue-dark);
+}
+
+.nav-item.active {
+    background: linear-gradient(
+        180deg,
+        #cbe7fb 0%,
+        #93c9f0 48%,
+        #6fb2e4 100%
+    );
+    color: #0d3c66;
+    font-weight: 600;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 0 0 1px rgba(120, 175, 220, 0.7),
+        0 0 12px rgba(120, 195, 240, 0.45);
+}
+
+/* ------------------------------------------------------ content surface */
+
+.main-content {
+    background:
+        radial-gradient(
+            90% 60% at 50% 0%,
+            rgba(233, 245, 254, 0.9) 0%,
+            rgba(255, 255, 255, 0) 62%
+        ),
+        var(--win-paper);
+}
+/* --------------------------------------------------- Aero command ribbon */
+
+/* Each page header becomes the glass command bar of a Win7 Explorer window:
+   it bleeds across the content padding and carries the page title. */
+.page-header {
+    margin: -28px -36px 26px;
+    padding: 16px 36px 15px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.96) 0%,
+            rgba(233, 244, 253, 0.9) 48%,
+            rgba(212, 233, 248, 0.88) 52%,
+            rgba(236, 246, 253, 0.94) 100%
+        );
+    border-bottom: 1px solid var(--win-edge-soft);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        0 1px 0 rgba(255, 255, 255, 0.6),
+        0 2px 10px rgba(10, 55, 95, 0.08);
+}
+
+.page-header h1 {
+    font-size: clamp(1.35rem, 2.1vw, 1.7rem);
+    font-weight: 600;
+    color: var(--win-ink);
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.page-header-actions {
+    gap: 8px;
+}
+
+/* --------------------------------------------------------- Win7 controls */
+
+/* Shared Aero button material: two-tone glass, crisp rim, inner highlight. */
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-warning {
+    border-radius: 4px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--win-ink);
+    border: 1px solid var(--win-edge-hard);
+    background-image: linear-gradient(
+        180deg,
+        #fdfefe 0%,
+        #eef5fa 46%,
+        #dbe8f2 52%,
+        #e8f1f8 100%
+    );
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.4),
+        0 1px 2px rgba(10, 55, 95, 0.1);
+    transition:
+        background-image 0.12s ease,
+        border-color 0.12s ease,
+        box-shadow 0.12s ease,
+        transform 0.08s ease;
+}
+
+.btn:hover,
+.btn-secondary:hover,
+.btn-primary:hover,
+.btn-danger:hover,
+.btn-warning:hover {
+    background-image: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #e4f2fd 46%,
+        #cfe3f5 52%,
+        #e2f0fb 100%
+    );
+    border-color: #66a9dc;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 0 0 2px rgba(120, 195, 240, 0.45),
+        0 2px 6px rgba(10, 55, 95, 0.16);
+    transform: none;
+}
+
+.btn:active,
+.btn-primary:active,
+.btn-secondary:active,
+.btn-danger:active,
+.btn-warning:active {
+    background-image: linear-gradient(
+        180deg,
+        #cfe1f0 0%,
+        #dcebf7 48%,
+        #eef6fc 100%
+    );
+    box-shadow:
+        inset 0 2px 4px rgba(10, 55, 95, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.btn:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-danger:focus-visible,
+.btn-warning:focus-visible {
+    outline: none;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        0 0 0 2px var(--win-focus);
+}
+
+/* Default / primary action — the saturated Aero blue. */
+.btn-primary {
+    color: #ffffff;
+    border-color: #1d5c9e;
+    background-image: linear-gradient(
+        180deg,
+        #b6ddf7 0%,
+        #6ab0e6 46%,
+        #3d84c8 52%,
+        #2f75bd 100%
+    );
+    text-shadow: 0 1px 1px rgba(6, 40, 78, 0.5);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.22),
+        0 1px 2px rgba(10, 55, 95, 0.28);
+}
+
+.btn-primary:hover {
+    background-image: linear-gradient(
+        180deg,
+        #d2ecfd 0%,
+        #7cc0f0 46%,
+        #4d95d8 52%,
+        #3a83cc 100%
+    );
+    border-color: #2a6fb4;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 2px rgba(120, 195, 240, 0.6),
+        0 2px 8px rgba(10, 55, 95, 0.3);
+}
+
+.btn-primary:active {
+    background-image: linear-gradient(
+        180deg,
+        #2c6cae 0%,
+        #3a80c4 50%,
+        #5aa1dc 100%
+    );
+}
+
+/* Destructive — Aero red glass. */
+.btn-danger {
+    color: #ffffff;
+    border-color: #9d2f22;
+    background-image: linear-gradient(
+        180deg,
+        #f6bcae 0%,
+        #e2705c 46%,
+        #c84733 52%,
+        #b33c29 100%
+    );
+    text-shadow: 0 1px 1px rgba(80, 12, 4, 0.5);
+}
+
+.btn-danger:hover {
+    background-image: linear-gradient(
+        180deg,
+        #fbd3c8 0%,
+        #ea8571 46%,
+        #d25340 52%,
+        #bd4431 100%
+    );
+    border-color: #8f2a1e;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        0 0 0 2px rgba(240, 150, 130, 0.5),
+        0 2px 8px rgba(120, 30, 20, 0.28);
+}
+
+.btn-danger:active {
+    background-image: linear-gradient(
+        180deg,
+        #a83726 0%,
+        #c04a37 50%,
+        #dd705d 100%
+    );
+}
+
+/* Caution — Aero amber glass. */
+.btn-warning {
+    color: #4a3200;
+    border-color: #b8860f;
+    background-image: linear-gradient(
+        180deg,
+        #fdf0c9 0%,
+        #f3cf72 46%,
+        #e0ab2e 52%,
+        #cf9b23 100%
+    );
+}
+
+.btn-warning:hover {
+    background-image: linear-gradient(
+        180deg,
+        #fff7dd 0%,
+        #f8db8c 46%,
+        #e7b63d 52%,
+        #d9a52b 100%
+    );
+    border-color: #a3770c;
+}
+
+.btn-sm {
+    padding: 6px 13px;
+    font-size: 13px;
+    border-radius: 4px;
+}
+
+.btn-disabled,
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* Win7 text fields: white well, recessed, cyan focus ring. */
+.form-group input,
+.form-group select,
+.form-group textarea,
+.csv-column-select,
+.testing-api-key-input {
+    background-color: #ffffff;
+    border: 1px solid var(--win-edge);
+    border-radius: 3px;
+    color: var(--win-ink);
+    padding: 9px 11px;
+    font-size: 14px;
+    box-shadow:
+        inset 0 1px 2px rgba(10, 55, 95, 0.12),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    transition:
+        border-color 0.12s ease,
+        box-shadow 0.12s ease;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: #6ba9d8;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #4a97d8;
+    box-shadow:
+        inset 0 1px 2px rgba(10, 55, 95, 0.1),
+        0 0 0 2px var(--win-focus);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #93aec2;
+    opacity: 1;
+}
+
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%234b6f8c' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+    padding-right: 28px;
+}
+
+.form-group label {
+    color: var(--win-ink);
+    font-weight: 600;
+    font-size: 13px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.field-hint,
+.label-hint {
+    color: var(--win-ink-faint);
+}
+
+.label-hint {
+    font-style: normal;
+}
+
+/* ----------------------------------------------------------- glass tiles */
+
+/* One shared Aero glass material for every card-like surface. */
+.stat-card,
+.template-card,
+.accordion-section,
+.testing-card,
+.csv-mapping-panel,
+.domain-filters,
+.template-vars-guide,
+.campaign-smtp-new,
+.template-form,
+.score-analyzer,
+.score-display,
+.detail-stats-grid,
+.detail-logs-panel,
+.logs-container,
+.smtp-config-wrap,
+.template-rotate-block {
+    background-color: var(--win-face);
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(248, 252, 255, 0.7) 46%,
+        rgba(226, 241, 251, 0.72) 53%,
+        rgba(243, 250, 254, 0.9) 100%
+    );
+    border: 1px solid var(--win-edge-soft);
+    border-radius: 6px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        0 1px 3px rgba(10, 55, 95, 0.09);
+}
+
+.stat-card:hover,
+.template-card:hover,
+.testing-card:hover {
+    border-color: #7fb6e2;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 0 0 2px rgba(130, 195, 240, 0.4),
+        0 6px 18px rgba(10, 55, 95, 0.16);
+}
+
+.stat-val {
+    color: var(--win-blue-dark);
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.stat-val.success {
+    color: #2f8a2a;
+}
+.stat-val.danger {
+    color: #b83a2c;
+}
+.stat-val.muted {
+    color: var(--win-ink-faint);
+}
+.stat-val.accent {
+    color: var(--win-blue);
+}
+
+.stat-lbl {
+    color: var(--win-ink-soft);
+}
+
+/* Templates: Win7 Explorer item tiles. */
+.template-card {
+    border-radius: 6px;
+}
+
+.template-card-sub {
+    color: var(--win-ink-soft);
+}
+
+.accordion-section {
+    border-radius: 6px;
+}
+
+.accordion-header {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(240, 248, 254, 0.6) 100%
+    );
+}
+
+.accordion-header:hover {
+    background-image: linear-gradient(
+        180deg,
+        rgba(226, 243, 254, 0.95) 0%,
+        rgba(200, 229, 249, 0.9) 100%
+    );
+}
+
+.accordion-section.open {
+    border-color: #7fb6e2;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 0 0 2px rgba(130, 195, 240, 0.35),
+        0 4px 14px rgba(10, 55, 95, 0.12);
+}
+
+.accordion-number {
+    color: var(--win-blue);
+}
+
+.accordion-status {
+    color: #2f8a2a;
+}
+
+.accordion-title {
+    color: var(--win-ink);
+}
+
+/* Upload drop area. */
+.upload-zone {
+    border: 2px dashed var(--win-edge);
+    border-radius: 6px;
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(238, 247, 253, 0.75) 100%
+    );
+}
+
+.upload-zone:hover,
+.upload-zone.drag-active {
+    border-color: #4a97d8;
+    background-image: linear-gradient(
+        180deg,
+        rgba(233, 246, 255, 0.98) 0%,
+        rgba(206, 232, 250, 0.95) 100%
+    );
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+        0 0 0 3px rgba(120, 195, 240, 0.35);
+}
+
+.upload-placeholder,
+.upload-icon {
+    color: var(--win-ink-soft);
+}
+
+.upload-file-hint {
+    color: var(--win-blue-dark);
+}
+
+/* Inline panels that sit inside tiles. */
+.csv-custom-var-row,
+.smtp-rotation-panel,
+.sender-name-rotation-panel,
+.sender-local-rotation-panel,
+.verified-domain-from-wrap,
+.smtp-rotation-checklist,
+.smtp-rotation-check-item,
+.smtp-sender-override-item,
+.domain-summary {
+    background-color: #f7fbfe;
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(233, 244, 252, 0.7) 100%
+    );
+    border: 1px solid var(--win-edge-soft);
+    border-radius: 5px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.smtp-rotation-toggle {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(232, 244, 252, 0.85) 100%
+    );
+    border: 1px solid var(--win-edge-soft);
+    border-radius: 5px;
+}
+
+.smtp-rotation-toggle:hover {
+    border-color: #7fb6e2;
+    background-image: linear-gradient(
+        180deg,
+        rgba(228, 244, 254, 0.98) 0%,
+        rgba(198, 228, 249, 0.95) 100%
+    );
+}
+
+.csv-custom-remove-btn {
+    border-radius: 5px;
+    background-image: linear-gradient(
+        180deg,
+        #fde9e5 0%,
+        #f3c1b6 50%,
+        #e79c8c 100%
+    );
+    border: 1px solid #cf7f6c;
+    color: #8c2e1f;
+}
+
+.csv-custom-remove-btn:hover {
+    background-image: linear-gradient(
+        180deg,
+        #fdd8d0 0%,
+        #f0ab9c 50%,
+        #dd8471 100%
+    );
+    border-color: #b96a57;
+    color: #6f2216;
+}
+/* --------------------------------------------- Win7 folder / file tiles */
+
+/* `[data-color]` is repeated so these rules out-rank the darker legacy
+   declarations that use the same compound selector. */
+.folder-card,
+.folder-card[data-color] {
+    background-color: #f1f8fe;
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        color-mix(in srgb, var(--folder-color) 12%, #ffffff) 46%,
+        color-mix(in srgb, var(--folder-color) 20%, #eaf4fc) 54%,
+        rgba(246, 252, 255, 0.94) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--folder-color) 35%, #b9d3e8);
+    border-radius: 6px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        0 2px 5px rgba(10, 55, 95, 0.12);
+}
+
+.folder-card::before {
+    background: radial-gradient(
+        120% 90% at 50% -20%,
+        rgba(255, 255, 255, 0.85) 0%,
+        rgba(255, 255, 255, 0) 62%
+    );
+    opacity: 0.9;
+}
+
+.folder-card:hover {
+    border-color: color-mix(in srgb, var(--folder-color) 60%, #8fbde2);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 0 0 2px
+            color-mix(in srgb, var(--folder-color) 30%, transparent),
+        0 8px 20px rgba(10, 55, 95, 0.18);
+    transform: translateY(-2px);
+}
+
+.folder-card.drop-hover {
+    border-color: var(--folder-color);
+    box-shadow:
+        0 0 0 3px
+            color-mix(in srgb, var(--folder-color) 45%, transparent),
+        0 10px 24px rgba(10, 55, 95, 0.22);
+}
+
+.folder-card-name {
+    color: var(--win-ink);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.folder-card-count {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(226, 241, 251, 0.9) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--folder-color) 30%, #c6dcee);
+    color: var(--win-ink-soft);
+}
+
+.folder-card-icon {
+    background-image: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--folder-color) 55%, #ffffff) 0%,
+        var(--folder-color) 55%,
+        color-mix(in srgb, var(--folder-color) 78%, #000000) 100%
+    );
+    border-radius: 5px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 2px 5px color-mix(in srgb, var(--folder-color) 45%, transparent);
+}
+
+.folder-card-menu {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(228, 241, 251, 0.85) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--folder-color) 22%, #c6dcee);
+    border-radius: 4px;
+    color: var(--win-ink-soft);
+}
+
+.folder-card-menu:hover {
+    background-image: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #dcecf8 100%
+    );
+    border-color: #7fb6e2;
+    color: var(--win-blue-dark);
+}
+
+.folder-card-stack-item {
+    background-color: #ffffff;
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(234, 245, 253, 0.95) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--folder-color) 22%, #c6dcee);
+    color: var(--win-ink-soft);
+    box-shadow: 0 3px 8px rgba(10, 55, 95, 0.1);
+}
+
+.folder-card-stack-item:nth-child(1) {
+    color: var(--win-ink);
+    background-image: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        color-mix(in srgb, var(--folder-color) 10%, #eef7fe) 100%
+    );
+}
+
+.folder-card-stack-item.is-subfolder {
+    color: color-mix(in srgb, var(--folder-color) 75%, #14314a);
+    background-image: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--folder-color) 14%, #ffffff) 0%,
+        color-mix(in srgb, var(--folder-color) 24%, #eef7fe) 100%
+    );
+}
+
+.folder-card-stack-empty {
+    color: var(--win-ink-faint);
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(236, 246, 253, 0.8) 100%
+    );
+    border: 1px dashed var(--win-edge);
+}
+
+/* Templates breadcrumb = Win7 address bar. */
+.templates-breadcrumb {
+    background-color: #ffffff;
+    background-image: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f0f7fd 100%
+    );
+    border: 1px solid var(--win-edge);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(10, 55, 95, 0.08);
+}
+
+.templates-breadcrumb-root,
+.templates-breadcrumb-crumb {
+    color: var(--win-blue-dark);
+    border-radius: 3px;
+}
+
+.templates-breadcrumb-root:hover,
+.templates-breadcrumb-crumb:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(224, 242, 254, 0.95) 0%,
+        rgba(199, 229, 249, 0.95) 100%
+    );
+    color: var(--win-blue-dark);
+}
+
+.templates-breadcrumb-current {
+    color: var(--win-ink);
+}
+
+.templates-breadcrumb-hint {
+    color: var(--win-ink-faint);
+}
+
+/* ------------------------------------------------------------- tables */
+
+.sg-activity-table-wrap {
+    border: 1px solid var(--win-edge-soft);
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+.sg-activity-table thead th {
+    background-image: linear-gradient(
+        180deg,
+        #fbfdff 0%,
+        #e8f2fa 52%,
+        #dceaf6 100%
+    );
+    color: var(--win-ink-soft);
+    border-bottom: 1px solid var(--win-edge-soft);
+    font-weight: 600;
+}
+
+.sg-activity-table tbody td {
+    color: var(--win-ink);
+    border-bottom: 1px solid #eaf3fa;
+}
+
+.sg-activity-table tbody tr:nth-child(even) {
+    background-color: #f8fbfe;
+}
+
+.sg-activity-table tbody tr:hover {
+    background-image: linear-gradient(
+        180deg,
+        rgba(226, 243, 254, 0.85) 0%,
+        rgba(206, 232, 250, 0.85) 100%
+    );
+}
+
+.sg-activity-cell-time,
+.sg-activity-cell-id {
+    color: var(--win-ink-faint);
+}
+
+.sg-activity-badge {
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+
+.sg-activity-badge.sg-status-delivered {
+    color: #1d6d21;
+    background: linear-gradient(180deg, #dff5dd 0%, #b8e5b3 100%);
+    border-color: #7fc47a;
+}
+
+.sg-activity-badge.sg-status-failed {
+    color: #8f2317;
+    background: linear-gradient(180deg, #fde3dd 0%, #f5c3b7 100%);
+    border-color: #dc907c;
+}
+
+.sg-activity-badge.sg-status-processed {
+    color: #17548f;
+    background: linear-gradient(180deg, #e0eefc 0%, #c0dcf6 100%);
+    border-color: #8bb8e2;
+}
+
+.sg-activity-badge.sg-status-unknown {
+    color: var(--win-ink-soft);
+    background: linear-gradient(180deg, #f1f5f9 0%, #dfe8f0 100%);
+    border-color: #c3d3e0;
+}
+
+.smtp-dns-badge {
+    border-radius: 3px;
+}
+
+.smtp-dns-badge--ok {
+    color: #1d6d21;
+    background: linear-gradient(180deg, #e2f6e0 0%, #bfe7ba 100%);
+    border-color: #83c67e;
+}
+
+.smtp-dns-badge--fail {
+    color: #8f2317;
+    background: linear-gradient(180deg, #fde5df 0%, #f5c6ba 100%);
+    border-color: #dc907c;
+}
+
+.smtp-dns-badge--warn {
+    color: #7a5607;
+    background: linear-gradient(180deg, #fdf0cf 0%, #f3dc9e 100%);
+    border-color: #d9b95f;
+}
+
+.smtp-dns-badge--na {
+    color: var(--win-ink-faint);
+    background: linear-gradient(180deg, #f2f6f9 0%, #e0e8ee 100%);
+    border-color: #c6d3dd;
+}
+
+/* -------------------------------------------------- Win7 scroll bars */
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #a9c6dd #eef4f9;
+}
+
+*::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+}
+
+*::-webkit-scrollbar-track {
+    background-image: linear-gradient(
+        90deg,
+        #eef4f9 0%,
+        #f7fbfe 100%
+    );
+    border-left: 1px solid #dbe7f1;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(
+        90deg,
+        #fdfeff 0%,
+        #dceaf6 45%,
+        #bcd7ea 55%,
+        #d3e5f3 100%
+    );
+    border: 1px solid #9dc2de;
+    border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-image: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #cfe7f8 45%,
+        #a3ccE8 55%,
+        #c2dcf0 100%
+    );
+    border-color: #6ba9d8;
+}
+
+*::-webkit-scrollbar-corner {
+    background: #eef4f9;
+}
+
+/* ------------------------------------------------------- dialogs */
+
+.modal-overlay {
+    background: rgba(12, 44, 74, 0.42);
+    backdrop-filter: blur(1.5px);
+}
+
+.modal,
+.modal-box {
+    background-color: var(--win-face);
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(238, 247, 253, 0.96) 46%,
+        rgba(226, 240, 250, 0.96) 54%,
+        rgba(244, 250, 254, 0.98) 100%
+    );
+    border: 1px solid var(--win-edge-hard);
+    border-radius: 6px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 0 0 1px rgba(255, 255, 255, 0.6),
+        0 22px 48px rgba(4, 30, 56, 0.42);
+    color: var(--win-ink);
+}
+
+.modal h3,
+.modal-box h3,
+.modal-close-btn,
+.modal h2 {
+    color: var(--win-ink);
+}
+
+.modal-close-btn {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(230, 241, 250, 0.9) 100%
+    );
+    border: 1px solid var(--win-edge-soft);
+    border-radius: 4px;
+    color: var(--win-ink-soft);
+}
+
+.modal-close-btn:hover {
+    background-image: linear-gradient(180deg, #fde3dd 0%, #f2b8aa 100%);
+    border-color: #cf8b78;
+    color: #8f2317;
+}
+
+.app-confirm-box {
+    border-radius: 6px;
+}
+
+.app-confirm-title {
+    color: var(--win-ink);
+    font-weight: 600;
+}
+
+.app-confirm-text {
+    color: var(--win-ink-soft);
+}
+
+.folder-color-swatch,
+.folder-color-custom {
+    border-color: var(--win-edge);
+}
+
+.folder-color-swatch.is-selected,
+.folder-color-custom.is-selected {
+    border-color: var(--win-blue-dark);
+    box-shadow: 0 0 0 3px var(--win-focus);
+}
+
+/* --------------------------------------------- status / progress / rings */
+
+.progress-ring .ring-bg {
+    stroke: #d8e7f3;
+}
+
+.progress-ring .ring-fill {
+    stroke: url(#aeroRingGradient);
+}
+
+/* Win7 green progress bar wherever a native progress element is used. */
+progress {
+    appearance: none;
+    height: 16px;
+    border: 1px solid var(--win-edge);
+    border-radius: 3px;
+    background-color: #eaf1f7;
+    box-shadow: inset 0 1px 2px rgba(10, 55, 95, 0.14);
+}
+
+progress::-webkit-progress-bar {
+    background-color: #eaf1f7;
+    border-radius: 3px;
+}
+
+progress::-webkit-progress-value {
+    background-image: linear-gradient(
+        180deg,
+        #d7f0c6 0%,
+        #93e07a 45%,
+        #4fbb35 55%,
+        #3fa82a 100%
+    );
+    border-radius: 3px;
+}
+
+/* Segmented control = Win7 toolbar button group. */
+.segmented-control {
+    background-color: #eaf2f9;
+    background-image: linear-gradient(180deg, #f7fbfe 0%, #e2eef8 100%);
+    border: 1px solid var(--win-edge);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(10, 55, 95, 0.1);
+}
+
+.segmented-btn {
+    color: var(--win-ink-soft);
+    font-weight: 600;
+    border-radius: 3px;
+}
+
+.segmented-btn:hover {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(214, 236, 251, 0.95) 100%
+    );
+    color: var(--win-blue-dark);
+}
+
+.segmented-btn--active {
+    background-image: linear-gradient(
+        180deg,
+        #cbe7fb 0%,
+        #8ec6f0 48%,
+        #63a8de 100%
+    );
+    color: #0d3c66;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 0 0 1px rgba(110, 170, 220, 0.7);
+}
+
+/* Campaign monitor surfaces + logs. */
+.detail-header,
+.detail-meta-bar,
+.detail-hint {
+    color: var(--win-ink-soft);
+}
+
+.detail-campaign-name {
+    color: var(--win-ink);
+}
+
+.detail-status-badge,
+.campaign-status-badge {
+    border-radius: 3px;
+    border: 1px solid var(--win-edge-soft);
+    background-image: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #e4f0f9 100%
+    );
+    color: var(--win-ink-soft);
+}
+
+.logs-header,
+.logs-title,
+.logs-indicator {
+    color: var(--win-ink-soft);
+}
+
+.logs-container,
+.testing-mail-log {
+    background-color: #ffffff;
+    background-image: linear-gradient(
+        180deg,
+        #fbfdff 0%,
+        #ffffff 100%
+    );
+    border: 1px solid var(--win-edge);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(10, 55, 95, 0.1);
+    color: var(--win-ink);
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+.monitor-stat {
+    background-color: var(--win-face);
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(230, 243, 252, 0.85) 100%
+    );
+    border: 1px solid var(--win-edge-soft);
+    border-radius: 5px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    color: var(--win-ink);
+}
+
+/* Score page. */
+.score-display,
+.score-result,
+.score-analyzer {
+    color: var(--win-ink);
+}
+
+.score-display {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(228, 242, 252, 0.9) 100%
+    );
+}
+
+/* Empty states. */
+.page-empty-state,
+.dashboard-empty-state {
+    background-color: #f8fbfe;
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(238, 247, 253, 0.85) 100%
+    );
+    border: 1px dashed var(--win-edge);
+    border-radius: 5px;
+    color: var(--win-ink-faint);
+}
+
+.recent-list {
+    color: var(--win-ink);
+}
+
+.active-campaign-widget {
+    background-image: linear-gradient(
+        180deg,
+        #e8f7e6 0%,
+        #cdecc8 48%,
+        #b4e2ae 100%
+    );
+    border: 1px solid #86c47f;
+    border-radius: 6px;
+    color: #1d5a1f;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        0 1px 3px rgba(10, 55, 95, 0.1);
+}
+
+.campaign-edit-banner {
+    background-image: linear-gradient(
+        180deg,
+        #fdf3d9 0%,
+        #f8e3ab 100%
+    );
+    border: 1px solid #d9b95f;
+    border-radius: 5px;
+    color: #6b4a06;
+}
+
+.campaign-edit-banner strong {
+    color: #7a5607;
+}
+
+/* --------------------------------------------------- CodeMirror (light) */
+
+.CodeMirror {
+    background-color: #ffffff !important;
+    border: 1px solid var(--win-edge) !important;
+    border-radius: 3px !important;
+    color: var(--win-ink) !important;
+    box-shadow: inset 0 1px 2px rgba(10, 55, 95, 0.1) !important;
+}
+
+.CodeMirror-gutters {
+    background-image: linear-gradient(90deg, #f2f7fb 0%, #e8f1f8 100%) !important;
+    border-right: 1px solid var(--win-edge-soft) !important;
+}
+
+.CodeMirror-linenumber {
+    color: #9db8cb !important;
+}
+
+.CodeMirror-cursor {
+    border-left: 1px solid var(--win-ink) !important;
+}
+
+.CodeMirror-selected {
+    background: rgba(120, 190, 240, 0.35) !important;
+}
+
+.CodeMirror-activeline-background {
+    background: rgba(140, 200, 245, 0.14) !important;
+}
+
+.template-code-textarea,
+.template-plain-textarea {
+    background-color: #ffffff;
+    border: 1px solid var(--win-edge);
+    border-radius: 3px;
+    color: var(--win-ink);
+    box-shadow: inset 0 1px 2px rgba(10, 55, 95, 0.1);
+}
+
+.template-editor-header,
+.template-code-phase-heading {
+    color: var(--win-ink);
+}
+
+.template-editor-close-btn,
+.template-code-phase-close.template-editor-close-btn {
+    background-image: linear-gradient(
+        180deg,
+        #fdfcfa 0%,
+        #f0e4d8 46%,
+        #e5d2c0 54%,
+        #f4e9dd 100%
+    );
+    border: 1px solid #c9ad95;
+    border-radius: 4px;
+    color: #7a4a2a;
+}
+
+.template-editor-close-btn:hover,
+.template-code-phase-close.template-editor-close-btn:hover {
+    background-image: linear-gradient(
+        180deg,
+        #fbd3c8 0%,
+        #ea8571 46%,
+        #d25340 54%,
+        #bd4431 100%
+    );
+    border-color: #8f2a1e;
+    color: #ffffff;
+}
+
+/* Update dialog + toast. */
+.update-modal-box,
+.template-unsaved-modal,
+.send-summary-modal {
+    border-radius: 6px;
+    border: 1px solid var(--win-edge-hard);
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(232, 243, 252, 0.96) 100%
+    );
+    box-shadow: 0 22px 48px rgba(4, 30, 56, 0.42);
+    color: var(--win-ink);
+}
+
+.update-version-new {
+    color: var(--win-blue-dark);
+    font-weight: 600;
+}
+
+.template-save-toast {
+    background-image: linear-gradient(
+        180deg,
+        #e8f7e6 0%,
+        #c6e9c1 100%
+    );
+    border: 1px solid #86c47f;
+    border-radius: 4px;
+    color: #1d5a1f;
+}
+
+/* Introspection blocks keep a Win7 "console" feel. */
+.inspect-json-pre,
+.testing-inspect-pre {
+    background-color: #fbfdff;
+    background-image: linear-gradient(180deg, #ffffff 0%, #f4f9fd 100%);
+    border: 1px solid var(--win-edge);
+    border-radius: 4px;
+    color: #17364a;
+    box-shadow: inset 0 1px 2px rgba(10, 55, 95, 0.1);
+}
+
+.template-vars-guide-body code,
+.testing-api-key-input {
+    color: #17364a;
+}
+
+.template-vars-guide {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(233, 244, 252, 0.85) 100%
+    );
+}
+
+.template-vars-guide-toggle {
+    color: var(--win-blue-dark);
+}
+
+.template-vars-guide-toggle:hover {
+    background-image: linear-gradient(
+        180deg,
+        rgba(230, 244, 254, 0.95) 0%,
+        rgba(206, 232, 250, 0.9) 100%
+    );
+}
+
+.template-rotate-block {
+    background-image: linear-gradient(
+        180deg,
+        rgba(228, 243, 254, 0.9) 0%,
+        rgba(205, 231, 250, 0.85) 100%
+    );
+    border: 1px solid #9dc8e8;
+}
+
+/* Text selection + focus. */
+::selection {
+    background: rgba(120, 190, 240, 0.45);
+    color: #0d3c66;
+}
+
+a {
+    color: var(--win-blue-dark);
+}
+
+a:hover {
+    color: var(--win-blue);
+    text-decoration: underline;
+}
+/* ==========================================================================
+   AERO GLASS DESKTOP — v2 POLISH
+   ========================================================================== */
+
+/* The "active campaign" banner is an empty green pill when nothing is running:
+   collapse it so the dashboard stays clean until a campaign actually exists. */
+.active-campaign-widget:empty {
+    display: none !important;
+}
+
+/* Keep the command ribbon's glass edge crisp against the content area. */
+.page-header + * {
+    margin-top: 0;
+}
+
+/* Win7 "group box" hairline under panel headings inside tiles. */
+.smtp-config-row--head,
+.logs-header,
+.detail-header {
+    border-bottom-color: var(--win-edge-soft);
+}
+
+.smtp-config-row--head .smtp-config-row-provider {
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(224, 240, 251, 0.9) 100%
+    );
+    border: 1px solid var(--win-edge-soft);
+    color: var(--win-blue-dark);
+}
+
+.smtp-config-toggle {
+    color: var(--win-blue-dark);
+}
+
+.smtp-config-wrap.is-open .smtp-config-toggle {
+    color: var(--win-blue);
+}
+
+.smtp-config-row--head:hover .smtp-config-row-name {
+    color: var(--win-blue-dark);
+}
+
+/* Long-form help text keeps Win7's softer ink. */
+.field-hint,
+.testing-page-lead,
+.form-subtitle,
+.template-card-sub,
+.upload-placeholder {
+    color: var(--win-ink-soft);
+}
+
+.label-hint {
+    color: var(--win-ink-faint);
+}
+
+/* Tables inside tiles (DNS records, activity) inherit the glass frame. */
+.dns-results,
+.dns-records,
+.update-changelog {
+    background-color: #ffffff;
+    border: 1px solid var(--win-edge);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(10, 55, 95, 0.08);
+    color: var(--win-ink);
+}
+
+.dns-info-banner {
+    background-image: linear-gradient(
+        180deg,
+        rgba(232, 245, 254, 0.95) 0%,
+        rgba(208, 232, 249, 0.92) 100%
+    );
+    border: 1px solid var(--win-edge-soft);
+    border-radius: 5px;
+    color: var(--win-ink);
+}
+
+/* Ensure nothing in the theme layer introduces a page-wide horizontal
+   scrollbar: the ribbon bleeds by exactly the content padding. */
+.main-content {
+    overflow-x: hidden;
+}
